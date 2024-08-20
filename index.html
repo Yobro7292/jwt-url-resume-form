@@ -95,10 +95,8 @@
                             name="bio"
                             id="bio"
                             class="border mt-1 rounded px-4 w-full bg-gray-50"
-                            value=""
                             placeholder="Describe yourself here..."
-                            >
-                            </textarea>
+                            ></textarea>
                         </div>
 
                         <div class="md:col-span-3">
@@ -190,14 +188,14 @@
             </div>
 
             <!-- Education details -->
-            <!-- <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-600">
                         <p class="font-medium text-lg">Education Details</p>
                         <p>Please fill out all the fields.</p>
                     </div>
                     <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="edu_details">
                             <div class="md:col-span-2">
                                 <label for="edu1_degree">Degree Name</label>
                                 <input
@@ -235,21 +233,21 @@
                                     placeholder=""
                                 />
                             </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
-                                <button
-                                    id="add_more_education"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                                >
-                                     Add More Education Details
-                                </button>
-                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex justify-center items-center mt-6">
+                            <button
+                                id="add_more_education"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                            >
+                                 Add More Education Details
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- Work Experience details -->
-            <!-- <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-600">
                         <p class="font-medium text-lg">Work Experience</p>
@@ -257,7 +255,7 @@
                     </div>
                     
                     <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="work_details">
                             <div class="md:col-span-3">
                                 <label for="org1_name">Orgenization Name</label>
                                 <input
@@ -287,7 +285,6 @@
                                     name="org1_description"
                                     id="org1_description"
                                     class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
                                     placeholder=""
                                 ></textarea> 
                             </div>
@@ -303,29 +300,29 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
-                                <button
-                                    id="add_more_work_experience"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                                >
-                                     Add Another Work Experience
-                                </button>
-                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex justify-center items-center mt-6">
+                            <button
+                                id="add_more_work_experience"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                            >
+                                 Add Another Work Experience
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
 
             <!-- Projects details -->
-            <!-- <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-600">
                         <p class="font-medium text-lg">Projects Details</p>
                         <p>Please fill out all the fields.</p>
                     </div>
                     <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="project_details">
                             <div class="md:col-span-3">
                                 <label for="pro1_title">Title</label>
                                 <input
@@ -359,33 +356,31 @@
                                 name="pro1_description"
                                 id="pro1_description"
                                 class="border mt-1 rounded px-4 w-full bg-gray-50"
-                                value=""
                                 placeholder=""
-                                >
-                                </textarea>
+                                ></textarea>
                             </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
-                                <button
-                                    id="add_more_project"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                                >
-                                     Add Another Project
-                                </button>
-                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex justify-center items-center mt-6">
+                            <button
+                                id="add_more_project"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                            >
+                                 Add Another Project
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
              <!-- Technical skills details -->
-             <!-- <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+             <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-600">
                         <p class="font-medium text-lg">Technical Skills</p>
                         <p>Please fill out all the fields.</p>
                     </div>
                     <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="tech_skills_details">
                             <div class="md:col-span-5">
                                 <label for="skill1_name">Skill Name</label>
                                 <input
@@ -404,58 +399,59 @@
                                 name="skill1_description"
                                 id="skill1_description"
                                 class="border mt-1 rounded px-4 w-full bg-gray-50"
-                                value=""
                                 placeholder=""
-                                >
-                                </textarea>
+                                ></textarea>
                             </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
-                                <button
-                                    id="add_more_skill"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                                >
-                                     Add Another Skill
-                                </button>
-                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex justify-center items-center mt-6">
+                            <button
+                                id="add_more_skill"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                            >
+                                 Add Another Skill
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
              <!-- Optional skills details -->
-             <!-- <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+             <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-600">
                         <p class="font-medium text-lg">Optional Details</p>
                         <p>Please fill out all the fields.</p>
                     </div>
                     <div class="lg:col-span-2 flex flex-col gap-8">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="skill_set">
-                            <div class="md:col-span-5">
-                                <span class="text-lg">Please rank your special skills</span>
+
+                        <div class="flex flex-col gap-4">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="skill_set">
+                                <div class="md:col-span-5">
+                                    <span class="text-lg">Please rank your special skills</span>
+                                </div>
+                                <div class="md:col-span-4">
+                                    <label for="sp_skill1_name">Skill Name</label>
+                                    <input
+                                        type="text"
+                                        name="sp_skill1_name"
+                                        id="sp_skill1_name"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="Python Programming"
+                                    />
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label for="sp_skill1_rank">Rank</label>
+                                    <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="sp_skill1_rank" id="sp_skill1_rank">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="md:col-span-4">
-                                <label for="sp_skill1_name">Skill Name</label>
-                                <input
-                                    type="text"
-                                    name="sp_skill1_name"
-                                    id="sp_skill1_name"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="Python Programming"
-                                />
-                            </div>
-                            <div class="md:col-span-1">
-                                <label for="sp_skill1_rank">Rank</label>
-                                <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="sp_skill1_rank" id="sp_skill1_rank">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
+                            <div class="md:col-span-5 flex justify-center items-center mt-2">
                                 <button
                                     id="add_more_sp_skill"
                                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
@@ -465,32 +461,34 @@
                             </div>
                         </div>
 
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="language_set">
-                            <div class="md:col-span-5">
-                                <span class="text-lg">Please define which languages are you can prefer</span>
+                        <div class="flex flex-col gap-4">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="language_set">
+                                <div class="md:col-span-5">
+                                    <span class="text-lg">Please define which languages are you can prefer</span>
+                                </div>
+                                <div class="md:col-span-4">
+                                    <label for="lan1_name">Language 1</label>
+                                    <input
+                                        type="text"
+                                        name="lan1_name"
+                                        id="lan1_name"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="English"
+                                    />
+                                </div>
+                                <div class="md:col-span-1">
+                                    <label for="lan1_rank">Rank</label>
+                                    <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="lan1_rank" id="lan1_rank">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="md:col-span-4">
-                                <label for="lan1_name">Language 1</label>
-                                <input
-                                    type="text"
-                                    name="lan1_name"
-                                    id="lan1_name"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="English"
-                                />
-                            </div>
-                            <div class="md:col-span-1">
-                                <label for="lan1_rank">Rank</label>
-                                <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="lan1_rank" id="lan1_rank">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
+                            <div class="md:col-span-5 flex justify-center items-center mt-2">
                                 <button
                                     id="add_more_lan"
                                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
@@ -500,20 +498,21 @@
                             </div>
                         </div>
 
-
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="interests">
-                            <div class="md:col-span-5">
-                                <span class="text-lg">Do you have any other interests?</span>
-                            </div>
-                            <div class="md:col-span-5">
-                                <input
-                                    type="text"
-                                    name="int1"
-                                    id="int1"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="Playing video games"
-                                />
+                        <div class="flex flex-col gap-4">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="interests_details">
+                                <div class="md:col-span-5">
+                                    <span class="text-lg">Do you have any other interests?</span>
+                                </div>
+                                <div class="md:col-span-5">
+                                    <input
+                                        type="text"
+                                        name="int1"
+                                        id="int1"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="Playing video games"
+                                    />
+                                </div>
                             </div>
                             <div class="md:col-span-5 flex justify-center items-center">
                                 <button
@@ -526,7 +525,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- submit button -->
             <div class="md:col-span-5 text-right mt-6 mb-16">

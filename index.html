@@ -26,6 +26,10 @@
     />
     <script type="text/javascript" src="./form_input.js"></script>
     <script type="text/javascript" src="./resume_design.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
       .custom-shape-divider-top-1724245809 {
         width: 100%;
@@ -50,7 +54,7 @@
        background-color: rgb(82, 143, 156);
     }
     .p-c-b{
-       background-color: rgb(24, 49, 65);
+       background-color: #183141;
     }
     .p-c-f{
        color: rgb(24, 49, 65);
@@ -577,22 +581,22 @@
         flex-direction: column;
         gap: 6px;
       "
-      class="py-6"
+      class="py-6 relative"
     >
-        <div class="container flex flex-col justify-start items-start max-w-[740px] min-w-[740px] h-full relative border border-gray-500 rounded-md p-0 overflow-y-auto overflow-x-hidden" style="font-family: Nunito;">
+        <div class="container flex flex-col justify-start items-start max-w-[740px] min-w-[749px] max-h-[1123px] min-h-[1123px] relative border border-gray-500 rounded-md p-2 overflow-y-auto overflow-x-hidden" style="font-family: Nunito !important;"  id="content_to_pdf">
 
             <!-- image and bg-shape section  -->
-            <div class="h-20 w-full pt-[150px] rounded-sm absolute z-10 top-0 left-0 p-c-b">
+            <div class="h-20 w-full pt-[150px] rounded-sm absolute -z-10 top-0 left-0 p-c-b">
                 <div class="custom-shape-divider-top-1724245809 rounded-md">
                     <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                         <path d="M1200 0L0 0 892.25 114.72 1200 0z" class="shape-fill"></path>
                     </svg>
                 </div>
-                <div class="w-[150px] h-[150px] bg-cover bg-center rounded-full absolute right-[30%] top-[63%] outline outline-offset-[2px] outline-4 outline-white" style="background-image: url(https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)"></div>
+                <div class="w-[150px] h-[150px] bg-cover bg-center rounded-full absolute right-[30%] top-[63%] border border-offset-[2px] border-4 border-white z-10" style="background-image: url(https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)"></div>
             </div>
 
             <!-- basic details  -->
-            <div class="w-full flex justify-between items-start py-3 px-4 z-20">
+            <div class="w-full flex justify-between items-start py-3 px-4 z-10">
                 <div class="flex flex-col gap-0 w-1/2">
                     <span class="text-white text-2xl font-bold">Yogi Hariyani</span>
                     <span class="s-c-f text-sm font-normal">Senior Software Developer</span>
@@ -600,27 +604,27 @@
                 </div>
                 <div class="flex flex-col gap-[6px]">
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[11px] font-light">yogihariyani@gmail.com</span>
+                        <span class="text-white text-[12px] font-light">yogihariyani@gmail.com</span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-envelope s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[11px] font-light">+91 99255 73751</span>
+                        <span class="text-white text-[12px] font-light">+91 99255 73751</span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-mobile-button s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[11px] font-light">4th Avenue, National Park, Behind Mama Nagar, CA</span>
+                        <span class="text-white text-[12px] font-light">4th Avenue, National Park, Behind Mama Nagar, CA</span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-location-dot s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[11px] font-light">linkedin.com/yogihariyani</span>
+                        <span class="text-white text-[12px] font-light">linkedin.com/yogihariyani</span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-brands fa-linkedin s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[11px] font-light">yogihariyani.in</span>
+                        <span class="text-white text-[12px] font-light">yogihariyani.in</span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-globe s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[11px] font-light">instagram.in/yobro7292</span>
+                        <span class="text-white text-[12px] font-light">instagram.in/yobro7292</span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-brands fa-instagram s-c-f fa-sm"></i></div>
                     </div>
                 </div>
@@ -630,13 +634,243 @@
              <div class="w-full h-full grid grid-cols-2 gap-4">
 
                 <!-- left details  -->
-                <div class="w-full h-full pt-20">Left section</div>
+                <div class="w-full h-full pt-12 flex flex-col gap-8 pl-4">
+
+                    <!-- work experience -->
+                     <div class="flex flex-col gap-2 justify-start items-start">
+                         <!-- work ex title -->
+                        <div class="flex w-full justify-start items-center">
+                            <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                                <i class="fa-solid fa-briefcase p-c-f fa-xl"></i>
+                            </div>
+                            <span class="text-2xl font-bold uppercase p-c-f">Work Experience</span>
+                        </div>
+                        <!-- org details -->
+                        <div class="flex w-full justify-start items-start gap-1">
+                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-lg font-bold p-c-f">Intern Software Developer</span>
+                                <span class="text-md p-c-f -mt-1">Mojang Softwares PVT lTD</span>
+                                <span class="text-xs s-c-f">03/05/2021 - 08/08/2022</span>
+                                <p class="text-xs text-black indent-3.5 text-justify">A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role. A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role.A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role.</p>
+                            </div>
+                        </div>
+                        <div class="flex w-full justify-start items-start gap-1">
+                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-lg font-bold p-c-f">Senior Software Developer</span>
+                                <span class="text-md p-c-f -mt-1">Okinawa Softwares</span>
+                                <span class="text-xs s-c-f">12/12/2023 - 01/01/2024</span>
+                                <p class="text-xs text-black indent-3.5 text-justify">A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role. A resume description is a section of your resume that lists your job duties, accomplishments</p>
+                            </div>
+                        </div>
+                     </div>
+
+                     <!-- Education -->
+                     <div class="flex flex-col gap-2 justify-start items-start">
+                        <!-- education title -->
+                       <div class="flex w-full justify-start items-center">
+                           <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                               <i class="fa-solid fa-building-columns p-c-f fa-xl"></i>
+                           </div>
+                           <span class="text-2xl font-bold uppercase p-c-f">Education</span>
+                       </div>
+                       <!-- edu details -->
+                        <div class="flex w-full justify-start items-start gap-2">
+                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-lg font-bold p-c-f">Master in Science</span>
+                                <span class="text-md p-c-f -mt-1">Sir S J University, CA <span class="s-c-f ml-1">- 2016</span></span>
+                                <p class="text-xs text-black indent-3.5 text-justify">A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role. A resume description is a section of your resume that lists</p>
+                            </div>
+                        </div>
+                        <div class="flex w-full justify-start items-start gap-2">
+                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-lg font-bold p-c-f">BSc in Computer Science</span>
+                                <span class="text-md p-c-f -mt-1">Maya University, South UA  <span class="s-c-f ml-1">- 2026</span></span>
+                                <p class="text-xs text-black indent-3.5 text-justify">A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="flex flex-col gap-2 justify-start items-start">
+                        <!-- skill title -->
+                       <div class="flex w-full justify-start items-center">
+                           <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                               <i class="fa-solid fa-screwdriver-wrench p-c-f fa-xl"></i>
+                           </div>
+                           <span class="text-2xl font-bold uppercase p-c-f">Skills</span>
+                       </div>
+                       <!-- skills boxes-->
+                        <div class="grid grid-cols-2 w-full gap-y-3">
+                            <span class="text-sm text-black">Python Programming</span>
+                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="p-c-b rounded-sm"></div>
+                                <div class="p-c-b rounded-sm"></div>
+                                <div class="p-c-b rounded-sm"></div>
+                                <div class="bg-gray-200 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm text-black">UI Designing</span>
+                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full bg-gray-200 rounded-sm"></div>
+                                <div class="w-full bg-gray-200 rounded-sm"></div>
+                                <div class=" w-full bg-gray-200 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm text-black">Full Stack Developing</span>
+                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full bg-gray-200 rounded-sm"></div>
+                                <div class=" w-full bg-gray-200 rounded-sm"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
 
                 <!-- right details -->
-                <div class="w-full h-full pt-28">Right section</div>
+                <div class="w-full h-full pt-24 flex flex-col gap-8 pr-4">
+
+                    <!-- personal projects -->
+                    <div class="flex flex-col gap-2 justify-start items-start">
+                        <!-- project title -->
+                       <div class="flex w-full justify-start items-center">
+                           <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                               <i class="fa-solid fa-folder-open p-c-f fa-xl"></i>
+                           </div>
+                           <span class="text-2xl font-bold uppercase p-c-f">Personal Projects</span>
+                       </div>
+                       <!-- project details -->
+                       <div class="flex w-full justify-start items-start gap-1">
+                           <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[4px]"></div>
+                           <div class="flex flex-col gap-[4px]">
+                               <span class="text-md p-c-f -mt-1">
+                                    Advance Motion Detector 
+                                    <span class="text-xs s-c-f ml-1">
+                                        03/05/2021 
+                                    <i class="fa-solid fa-arrow-up-right-from-square fa-sm s-c-f ml-1 cursor-pointer"></i>
+                                    </span>
+                                </span>
+                               <p class="text-xs text-black indent-3.5 text-justify">section of your resume that lists your job duties, accomplishments, and projects for a specific role.A resume description is </p>
+                           </div>
+                       </div>
+                       <div class="flex w-full justify-start items-start gap-1">
+                           <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[4px]"></div>
+                           <div class="flex flex-col gap-[4px]">
+                               <span class="text-md p-c-f -mt-1">
+                                    INOX Camera Drag Movement 
+                                    <span class="text-xs s-c-f ml-1">
+                                        23/12/1902 
+                                    <i class="fa-solid fa-arrow-up-right-from-square fa-sm s-c-f ml-1 cursor-pointer"></i>
+                                    </span>
+                                </span>
+                               <p class="text-xs text-black indent-3.5 text-justify">section of your resume that lists your job duties, accomplishments </p>
+                           </div>
+                       </div>
+                
+                    </div>
+
+                     <!-- Tech Skills -->
+                     <div class="flex flex-col gap-2 justify-start items-start">
+
+                        <!-- tech skill title -->
+                       <div class="flex w-full justify-start items-center">
+                           <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                               <i class="fa-solid fa-microchip p-c-f fa-xl"></i>
+                           </div>
+                           <span class="text-2xl font-bold uppercase p-c-f">Technical Skills</span>
+                       </div>
+
+                       <!-- project details -->
+                        <div class="flex flex-col gap-3 justify-start items-start">
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-sm p-c-f font-semibold"> Graphics</span>
+                                <p class="text-xs text-black text-justify">Hand Sketching, UI drawing with the right tools in figma and adobe express.</p>
+                            </div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-sm p-c-f font-semibold"> Node.js </span>
+                                <p class="text-xs text-black text-justify">Full stacking web application, UI drawing with the right tools in figma and adobe express.</p>
+                            </div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-sm p-c-f font-semibold"> Hardware Configuration </span>
+                                <p class="text-xs text-black text-justify">Assemble PC using custom rooted hardwares with full stacking web application, UI drawing with the right tools in figma and adobe express.</p>
+                            </div>
+                        </div>
+                
+                    </div>
+
+                     <!-- languages -->
+                     <div class="flex flex-col gap-2 justify-start items-start">
+                        <!-- lan title -->
+                       <div class="flex w-full justify-start items-center">
+                           <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                               <i class="fa-solid fa-language p-c-f fa-xl"></i>
+                           </div>
+                           <span class="text-2xl font-bold uppercase p-c-f">Languages</span>
+                       </div>
+                       <!-- lan boxes-->
+                        <div class="grid grid-cols-2 w-full gap-y-3">
+                            <span class="text-sm text-black">Polish</span>
+                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full bg-gray-200 rounded-sm"></div>
+                                <div class="w-full bg-gray-200 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm text-black">English</span>
+                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="bg-gray-200 rounded-sm"></div>
+                                <div class="bg-gray-200 rounded-sm"></div>
+                                <div class="bg-gray-200 rounded-sm"></div>
+                                <div class="bg-gray-200 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm text-black">Serbian</span>
+                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                                <div class="w-full p-c-b rounded-sm"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- interests -->
+                    <div class="flex flex-col gap-2 justify-start items-start">
+                        <!-- interest title -->
+                       <div class="flex w-full justify-start items-center">
+                           <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
+                               <i class="fa-solid fa-dice p-c-f fa-xl"></i>
+                           </div>
+                           <span class="text-2xl font-bold uppercase p-c-f">Interest</span>
+                       </div>
+                       <!-- interest boxes-->
+                        <div class="flex flex-wrap gap-2 w-full">
+                            <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">Travelling</div>
+                            <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">Eating Karas</div>
+                            <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">Sleeping</div>
+                            <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">Watching War Movies</div>
+                            <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">Playing with Tisal</div>
+                            <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">Talwar Samalna</div>
+                        </div>
+                    </div>
+
+                </div>
              </div>
         </div>
     </div>
-
+    
+    <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-[50px] h-[50px] flex justify-center items-center animate-bounce" id="generate-pdf">
+        <i class="fa-solid fa-download" style="color: #ffffff;"></i>
+    </button>
   </body>
 </html>

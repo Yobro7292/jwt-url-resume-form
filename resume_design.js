@@ -103,6 +103,55 @@ $(document).ready(function() {
             }
 
         } //end_decode_if
+
+        $('#generate-pdf').click(function () {
+            // Capture the content as a canvas
+            html2canvas(document.querySelector("#content_to_pdf"), {
+                scale: 2,  // Increase scale for better quality
+                useCORS: true,  // Enable CORS to handle cross-origin images
+                allowTaint: true  // Allows images from different origins without tainting the canvas
+            }).then(canvas => {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4
+        
+                // Calculate the A4 size in pixels at 96 DPI
+                const a4Width = 210; // A4 width in mm
+                const a4Height = 297; // A4 height in mm
+        
+                // Get canvas dimensions in pixels
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height+100;
+        
+                // Calculate the aspect ratio
+                const ratio = Math.min(a4Width / canvasWidth, a4Height / canvasHeight);
+        
+                // Calculate the new dimensions for the image in mm
+                const imgWidth = (canvasWidth) * ratio; // px to mm conversion (1 px = 0.264583 mm)
+                const imgHeight = (canvasHeight) * ratio;
+        
+                // Center the image if it's smaller than the A4 page
+                const offsetX = (a4Width - imgWidth) / 2;
+                const offsetY = (a4Height - imgHeight) / 2;
+                
+                setTimeout(() => {
+                    const Image_URL = canvas.toDataURL('image/png');
+                    if(Image_URL){
+                        console.log(Image_URL);
+                    }
+                }, 4000);
+                // Add the image to the PDF at the center
+                // pdf.addImage(canvas.toDataURL('image/png'), 'PNG', offsetX, offsetY, imgWidth, imgHeight);
+        
+                // Save the PDF
+                // pdf.save('generated.pdf');
+            }).catch(err => {
+                console.error("Error generating PDF: ", err);
+            });
+        });
+        
+        
+
+        
     } 
     else {
         $('#resume_design').addClass('hidden');

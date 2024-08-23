@@ -3,12 +3,6 @@ const star_svg =
 const empty_star =
   '<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="34px" height="34px" viewBox="-8.96 -8.96 81.92 81.92" enable-background="new 0 0 64 64" xml:space="preserve" fill="#f49f3e" stroke="#f49f3e" stroke-width="5.3759999999999994"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#FFFFFF00" d="M62.799,23.737c-0.47-1.399-1.681-2.419-3.139-2.642l-16.969-2.593L35.069,2.265 C34.419,0.881,33.03,0,31.504,0c-1.527,0-2.915,0.881-3.565,2.265l-7.623,16.238L3.347,21.096c-1.458,0.223-2.669,1.242-3.138,2.642 c-0.469,1.4-0.115,2.942,0.916,4l12.392,12.707l-2.935,17.977c-0.242,1.488,0.389,2.984,1.62,3.854 c1.23,0.87,2.854,0.958,4.177,0.228l15.126-8.365l15.126,8.365c0.597,0.33,1.254,0.492,1.908,0.492c0.796,0,1.592-0.242,2.269-0.72 c1.231-0.869,1.861-2.365,1.619-3.854l-2.935-17.977l12.393-12.707C62.914,26.68,63.268,25.138,62.799,23.737z"></path> </g></svg>';
 
-// Function to get query parameters from URL
-function getQueryParam(name) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(name);
-}
-
 // Function to decode JWT token
 function decodeJWT(token) {
   try {
@@ -22,60 +16,86 @@ function decodeJWT(token) {
 }
 
 $(document).ready(function() {
-    const token = getQueryParam('token');
+    const token = window.location.hash.substring(1);
+
     if (token) {
+        // showing design
         $('#resume_design').addClass('flex');
         $('#resume_form').addClass('hidden');
+        $('#generate-pdf').show().addClass('flex');
+
         const decoded = decodeJWT(token);
+        console.log("Decoded token", decoded);
         if (decoded) {
-            $('#name_value').text(decoded.name || '');
-            $('#role_value').text(decoded.role || '');
-            $('#bio_value').text(decoded.bio || '');
-            $('#profile_img').attr('src', decoded.image_url || '');
+            $('#profile_image').css('background-image', decoded.image_url ? `url(${decoded.image_url})` : "linear-gradient(to left top, #d3d3d3, #b6b6b6, #9a9a9a, #7f7f7f, #656565)");
+            $('#name_v').text(decoded.name || "");
+            $('#role_v').text(decoded.role || "");
+            $('#bio_v').text(decoded.bio || "");
+            $('#address_v').text(decoded.contact_details.address || "");
+            $('#email_v').text(decoded.contact_details.email || "");
+            $('#phone_v').text(decoded.contact_details.phone || "");
 
-            //setting contect details
-            $('#email_value').text(decoded?.contact_details?.email || '');
-            $('#phone_value').text(decoded?.contact_details?.phone || '');
-            $('#address_value').text(decoded?.contact_details?.address || '');
-
-            // Contect Details Social Media Links
-            if (decoded?.contact_details?.social_media?.length > 0) {
-                decoded.contact_details.social_media.forEach(function(social) {
-                    $('#contact_details').append(`
-                        <div class="p-2">${social.type}</div>
-                        <div class="col-span-4 col-start-2 w-full bg-white p-2 rounded-md text-blue-600" id="value">
-                            <a href="${social.href}" target="_blank">${social.href}</a>
-                        </div>
-                    `);
+            // Adding social links in the design 
+            const social_links = decoded.contact_details.social_links || [];
+            var social_links_output_dom = "";
+            if(social_links.length > 0){
+                social_links.forEach(link => {
+                    if(link.type == "linkedin"){
+                        social_links_output_dom += `
+                            <div class="flex justify-end items-center gap-1">
+                                <span class="text-white text-[12px] font-light">${link.href}</span>
+                                <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-brands fa-linkedin s-c-f fa-sm"></i></div>
+                            </div>
+                        `;
+                    }
+                    else if(link.type == "instagram"){
+                        social_links_output_dom += `
+                            <div class="flex justify-end items-center gap-1">
+                                <span class="text-white text-[12px] font-light">${link.href}</span>
+                                <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-brands fa-instagram s-c-f fa-sm"></i></div>
+                            </div>
+                        `;
+                    }
+                    else if(link.type == "website"){
+                        social_links_output_dom += `
+                            <div class="flex justify-end items-center gap-1">
+                                <span class="text-white text-[12px] font-light">${link.href}</span>
+                                <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-globe s-c-f fa-sm"></i></div>
+                            </div>
+                        `;
+                    }
+                    else if(link.type == "twitter"){
+                        social_links_output_dom += `
+                            <div class="flex justify-end items-center gap-1">
+                                <span class="text-white text-[12px] font-light">${link.href}</span>
+                                <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-brands fa-square-twitter s-c-f fa-sm"></i></div>
+                            </div>
+                        `;
+                    } else {
+                        social_links_output_dom += "";
+                    }
                 });
+                $('#social_links_v_container').append(social_links_output_dom);
             }
 
-            // Work Excperiences
-            if (decoded?.work_experience?.length > 0) {
-                decoded.work_experience.forEach(function(experience) {
-                    $('#work_experience_values').append(`
-                        <div class="col-span-5 col-start-1 w-full bg-white p-2 rounded-md flex flex-col gap-[2px]" id="value">
-                            <span class="text-xl font-bold">${experience.org_name}</span>
-                            <span class="text-md text-gray-600">${experience.designation}</span>
-                            <span class="text-sm text-green-600">${experience.start_date} to ${experience.end_date}</span>
-                            <span class="text-pretty">${experience.description}</span>
+            //add Work experience in design
+            const work_experience = decoded.work_experience || [];
+            var work_experience_output_dom = "";
+            if(work_experience.length > 0){
+                work_experience.forEach(work => {
+                    work_experience_output_dom += `
+                        <div class="flex w-full justify-start items-start gap-1">
+                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                            <div class="flex flex-col gap-[4px]">
+                                <span class="text-lg font-bold p-c-f">${work.designation}</span>
+                                <span class="text-md p-c-f -mt-1">${work.org_name}</span>
+                                <span class="text-xs s-c-f">${work.start_date} - ${work.end_date}</span>
+                                <p class="text-xs text-black indent-3.5 text-justify">${work.description}</p>
+                            </div>
                         </div>
-                    `);
+                    `;
                 });
-            }
-
-            // setting education details
-            if (decoded?.education?.length > 0) {
-                decoded.education.forEach(function(experience) {
-                    $('#education_values').append(`
-                        <div class="col-span-5 col-start-1 w-full bg-white p-2 rounded-md flex flex-col gap-[2px]" id="value">
-                            <span class="text-xl font-bold">${experience.title}</span>
-                            <span class="text-md text-gray-600">${experience.school}</span>
-                            <span class="text-sm text-green-600">${experience.completed_year || ""}</span>
-                            <span class="text-pretty">${experience.description}</span>
-                        </div>
-                    `);
-                });
+                $('#work_experience_v_container').append(work_experience_output_dom);
             }
 
             // setting skill ranking
@@ -104,6 +124,8 @@ $(document).ready(function() {
 
         } //end_decode_if
 
+
+        // generate pdf and download
         $('#generate-pdf').click(function () {
             // Capture the content as a canvas
             html2canvas(document.querySelector("#content_to_pdf"), {
@@ -148,13 +170,15 @@ $(document).ready(function() {
                 console.error("Error generating PDF: ", err);
             });
         });
-        
-        
 
+        $('#go_back').click(function(){
+            window.location.href = window.location.origin;
+        });
         
     } 
     else {
         $('#resume_design').addClass('hidden');
         $('#resume_form').addClass('flex');
+        $('#generate-pdf').hide().removeClass('flex');
     }
 });

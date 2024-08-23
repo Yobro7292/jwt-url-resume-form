@@ -34,30 +34,38 @@ $(document).ready(function() {
         }
     }
 
-    // function for process file 
-    function processFile(file){
+   // Function for processing the file
+    function processFile(file) {
+        const maxFileSize = 200 * 1024; // 200kb in bytes
+
+        // Check if the file exceeds 200kb
+        if (file.size > maxFileSize) {
+            alert('File size exceeds 200kb. Please select a smaller file.');
+            return;
+        }
+
         if (file && file.type.match('image.*')) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 image_url = e.target.result;
                 toggleUploadButton();
             };
-    
+
             reader.readAsDataURL(file);
         } else {
             alert('Please select a valid image file.');
         }
     }
-     //getting profile image data url
-     {
+
+    // Getting profile image data URL
+    {
         toggleUploadButton();
-         $('#file-upload').on('change', function(event) {
+        $('#file-upload').on('change', function(event) {
             const file = event.target.files[0];
             processFile(file);
         });
-     }
-
-     // handling drag and drop functionality 
+    }
+    // Handling drag and drop functionality
      {
          const dropArea = $('#drop-area');
          dropArea.on('dragover', function(event) {
@@ -68,7 +76,7 @@ $(document).ready(function() {
          dropArea.on('dragleave', function(event) {
              event.preventDefault();
              dropArea.removeClass('bg-gray-200'); 
-         });
+        });
          dropArea.on('drop', function(event) {
              event.preventDefault();
              dropArea.removeClass('bg-gray-200');
@@ -101,6 +109,9 @@ $(document).ready(function() {
             </div>
            `;
            $('#social_links_container').append(new_social_link_section);
+           if(social_link_id>2){
+            $('#add_more_links').hide();
+           }
         });
     }
 
@@ -501,10 +512,11 @@ $(document).ready(function() {
 
         // Generate the JWT token
         const token = generateJWT(payload);
-        console.log(token);
 
-        // Update the URL with the token parameter
-        const url = `${window.location.origin}?token=${token}`;
-        window.location.href = url;
+        // Set the fragment identifier (hash)
+        window.location.hash = token;  // Sets the fragment as the JWT token
+
+        // var currentPathWithHostname = window.location.href;
+        window.location.reload();
     });
 });

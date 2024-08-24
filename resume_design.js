@@ -102,6 +102,8 @@ $(document).ready(function() {
                     }
                 });
                 $('#social_links_v_container').append(social_links_output_dom);
+            } else {
+                $('#social_links_v_container').hide();
             }
 
             //add Work experience in design
@@ -122,6 +124,8 @@ $(document).ready(function() {
                     `;
                 });
                 $('#work_experience_v_container').append(work_experience_output_dom);
+            }else{
+                $('#work_c').hide();
             }
 
             //add education in design
@@ -141,6 +145,8 @@ $(document).ready(function() {
                     `;
                 });
                 $('#education_v_container').append(education_output_dom);
+            }else{
+                $('#education_c').hide();
             }
 
             //add skill ranking in design
@@ -163,6 +169,8 @@ $(document).ready(function() {
                     skill_ranking_output_dom += '</div>';
                 });
                 $('#skill_ranking_v_container').append(skill_ranking_output_dom);
+            }else{
+                $('#skill_rank_c').hide();
             }
 
             //add personal projects in design
@@ -187,9 +195,11 @@ $(document).ready(function() {
                     `;
                 });
                 $('#projects_v_container').append(project_output_dom);
+            }else{
+                $('#projects_c').hide();
             }
 
-            //add personal projects in design
+            //add tech skills in design
             const tech_skills_value = decoded.tech_skills || [];
             var tech_skills_output_dom = "";
             if(tech_skills_value.length > 0){
@@ -202,6 +212,8 @@ $(document).ready(function() {
                     `;
                 });
                 $('#tech_skills_v_container').append(tech_skills_output_dom);
+            }else{
+                $('#tech_skills_c').hide();
             }
 
             //add language in design
@@ -224,6 +236,8 @@ $(document).ready(function() {
                     language_output_dom += '</div>';
                 });
                 $('#language_output_v_container').append(language_output_dom);
+            }else{
+                $('#language_c').hide();
             }
 
              //add interests in design
@@ -236,7 +250,9 @@ $(document).ready(function() {
                      `;
                  });
                  $('#interest_v_container').append(interests_output_dom);
-             }
+             }else{
+                $('#interests_c').hide();
+            }
 
         } //end_decode_if
 
@@ -673,25 +689,28 @@ $(document).ready(function() {
             for(var i=1; i<=social_link_id;i++){            
                 var type = $(`#social_link${i}_type`).val();
                 var value = $(`#social_link${i}_value`).val();
-                social_links.push({
-                    type,
-                    href: cleanURL(value)
-                });
+                if(type && href){
+                    social_links.push({
+                        type,
+                        href: cleanURL(value)
+                    });
+                }
             }
 
             //getting education details in array
             for(var i=1; i<=edu_id;i++){            
                 var degree = $(`#edu${i}_degree`).val();
                 var university = $(`#edu${i}_university`).val();
-                var completed_year = new Date($(`#edu${i}_date`).val()).getFullYear();
+                var completed_year = new Date($(`#edu${i}_date`).val()).getFullYear() || "";
                 var description = $(`#edu${i}_description`).val();
-
-                education.push({
-                degree,
-                university,
-                completed_year,
-                description
-                });
+                if(degree && university && completed_year){
+                    education.push({
+                        degree,
+                        university,
+                        completed_year,
+                        description
+                    });
+                }
             }
 
             //getting work experience details in array
@@ -699,70 +718,82 @@ $(document).ready(function() {
                 var org_name = $(`#org${i}_name`).val();
                 var designation = $(`#org${i}_designation`).val();
                 var description = $(`#org${i}_description`).val();
-                var start_date = $(`#org${i}_start_date`).val();
-                var end_date = $(`#org${i}_end_date`).val();
+                var start_date = $(`#org${i}_start_date`).val() || "";
+                var end_date = $(`#org${i}_end_date`).val() || "";
 
-                work_experience.push({
-                    org_name,
-                    designation,
-                    description,
-                    start_date,
-                    end_date
-                });
+                if(org_name && designation){
+                    work_experience.push({
+                        org_name,
+                        designation,
+                        description,
+                        start_date,
+                        end_date
+                    });
+                }
             }
 
             //getting projects details in array
             for(var i=1; i<=project_id;i++){            
                 var title = $(`#pro${i}_title`).val();
                 var date = $(`#pro${i}_date`).val();
-                var description = $(`#pro${i}_description`).val();
-                var href = $(`#pro${i}_href`).val();
+                var description = $(`#pro${i}_description`).val() || "";
+                var href = $(`#pro${i}_href`).val() || "";
 
-                projects.push({
-                    title,
-                    date,
-                    href,
-                    description
-                });
+                if(title && date){
+                    projects.push({
+                        title,
+                        date,
+                        href,
+                        description
+                    });
+                }
             }
 
             //getting tech skills details in array
             for(var i=1; i<=tech_skill_id;i++){            
                 var title = $(`#skill${i}_name`).val();
-                var description = $(`#skill${i}_description`).val();
+                var description = $(`#skill${i}_description`).val() || "";
 
-                tech_skills.push({
-                    title,
-                    description
-                });
+                if(title){
+                    tech_skills.push({
+                        title,
+                        description
+                    });
+                }
             }
 
             //getting skills details in array
             for(var i=1; i<=skill_id;i++){            
                 var skill_name = $(`#sp_skill${i}_name`).val();
-                var rank = $(`#sp_skill${i}_rank`).val();
+                var rank = $(`#sp_skill${i}_rank`).val() || 0;
 
-                skill_ranking.push({
-                    skill_name,
-                    rank
-                });
+                if(skill_name){
+                    skill_ranking.push({
+                        skill_name,
+                        rank
+                    });
+                }
             }
 
             //getting language details in array
             for(var i=1; i<=language_id;i++){            
                 var language = $(`#lan${i}_name`).val();
-                var rank = $(`#lan${i}_rank`).val();
+                var rank = $(`#lan${i}_rank`).val() || "";
 
-                languages.push({
-                    language,
-                    rank
-                });
+                if(language){
+                    languages.push({
+                        language,
+                        rank
+                    });
+                }
             }
 
             //getting interests details in array
             for(var i=1; i<=interest_id;i++){            
                 var interest_name = $(`#int${i}`).val();
-                interests.push(interest_name);
+                if(interest_name){
+                    interests.push(interest_name);
+                }
             }
 
             // Create the payload

@@ -580,9 +580,9 @@
         flex-direction: column;
         gap: 6px;
       "
-      class="py-6 relative"
+      class="relative"
     >
-        <div class="container flex flex-col justify-start items-start max-w-[740px] min-w-[749px] max-h-[1123px] min-h-[1123px] relative border border-gray-500 rounded-md p-2 overflow-y-auto overflow-x-hidden" style="font-family: Nunito !important;"  id="content_to_pdf">
+        <div class="container flex flex-col justify-start items-start max-w-[740px] min-w-[749px] max-h-[1123px] min-h-[1123px] relative border border-gray-500 rounded-md p-2 m-2 overflow-y-auto overflow-x-hidden" style="font-family: Nunito !important;"  id="content_to_pdf">
 
             <!-- image and bg-shape section  -->
             <div class="h-20 w-full pt-[150px] rounded-sm absolute -z-10 top-0 left-0 p-c-b">
@@ -626,7 +626,7 @@
                 <div class="w-full h-full pt-12 flex flex-col gap-8 pl-4">
 
                     <!-- work experience -->
-                     <div class="flex flex-col gap-2 justify-start items-start">
+                     <div class="flex flex-col gap-2 justify-start items-start" id="work_c">
                          <!-- work ex title -->
                         <div class="flex w-full justify-start items-center">
                             <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
@@ -640,7 +640,7 @@
                      </div>
 
                      <!-- Education -->
-                     <div class="flex flex-col gap-2 justify-start items-start">
+                     <div class="flex flex-col gap-2 justify-start items-start" id="education_c">
                         <!-- education title -->
                        <div class="flex w-full justify-start items-center">
                            <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
@@ -653,7 +653,7 @@
                     </div>
 
                     <!-- Skills -->
-                    <div class="flex flex-col gap-2 justify-start items-start">
+                    <div class="flex flex-col gap-2 justify-start items-start" id="skill_rank_c">
                         <!-- skill title -->
                        <div class="flex w-full justify-start items-center">
                            <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
@@ -673,7 +673,7 @@
                 <div class="w-full h-full pt-24 flex flex-col gap-8 pr-4">
 
                     <!-- personal projects -->
-                    <div class="flex flex-col gap-2 justify-start items-start">
+                    <div class="flex flex-col gap-2 justify-start items-start" id="projects_c">
                         <!-- project title -->
                        <div class="flex w-full justify-start items-center">
                            <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
@@ -686,7 +686,7 @@
                     </div>
 
                      <!-- Tech Skills -->
-                     <div class="flex flex-col gap-2 justify-start items-start">
+                     <div class="flex flex-col gap-2 justify-start items-start" id="tech_skills_c">
 
                         <!-- tech skill title -->
                        <div class="flex w-full justify-start items-center">
@@ -702,7 +702,7 @@
                     </div>
 
                      <!-- languages -->
-                     <div class="flex flex-col gap-2 justify-start items-start">
+                     <div class="flex flex-col gap-2 justify-start items-start" id="language_c">
                         <!-- lan title -->
                        <div class="flex w-full justify-start items-center">
                            <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
@@ -716,7 +716,7 @@
                     </div>
 
                     <!-- interests -->
-                    <div class="flex flex-col gap-2 justify-start items-start">
+                    <div class="flex flex-col gap-2 justify-start items-start" id="interests_c">
                         <!-- interest title -->
                        <div class="flex w-full justify-start items-center">
                            <div class="flex justify-start items-center max-w-[35px] w-[35px] p-0">
@@ -736,6 +736,5 @@
     <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-[50px] h-[50px] flex justify-center items-center animate-bounce" id="generate-pdf">
         <i class="fa-solid fa-download" style="color: #ffffff;"></i>
     </button>
-    <button id="go_back">Go back</button>
   </body>
 </html>

@@ -420,7 +420,7 @@ $(document).ready(function() {
                                 const mergedData = mergeData(education_value, rewrited_data?.education);
                                 console.log("merte", mergedData);
                                 addEducation(mergedData || education_value);
-
+                                // not working props
                             }
                             // addEducation(rewrited_data?.education || education_value);
                             addTechSkill(rewrited_data?.tech_skills || tech_skills_value);

@@ -1,5 +1,6 @@
 const filled_box = '<div class="w-full p-c-b rounded-sm"></div>';
 const empty_box = '<div class="bg-gray-200 rounded-sm"></div>';
+const API_endpoint_host = 'http://localhost:3000';
 
 // Function to decode JWT token
 function decodeJWT(token) {
@@ -29,40 +30,29 @@ function cleanURL(url) {
     return cleanedURL;
 }
 
-$(document).ready(function() {
-    const token = window.location.hash.substring(1);
 
-    // variables
-    var image_url = "";
-    var social_link_id = 1;
-    var edu_id = 1;
-    var work_ex_id = 1;
-    var project_id = 1;
-    var tech_skill_id = 1; 
-    var skill_id = 1;
-    var language_id = 1;
-    var interest_id = 1;
-    
+// Merge data function
+function mergeData(existing, updates) {
+    // Create a map from the new data for quick lookups
+    const updateMap = new Map(updates.map(item => [item.id, item]));
 
-    if (token) {
-        // showing design
-        $('#resume_design').addClass('flex');
-        $('#resume_form').addClass('hidden');
-        $('#generate-pdf').show().addClass('flex');
+    // Update existing data with new values
+    existing.forEach(item => {
+        if (updateMap.has(item.id)) {
+            const update = updateMap.get(item.id);
+            item.title = update.title || item.title;
+            item.description = update.description || item.description;
+        }
+    });
 
-        const decoded = decodeJWT(token);
-        console.log("Decoded token", decoded);
-        if (decoded) {
-            $('#profile_image').css('background-image', decoded.image_url ? `url(${decoded.image_url})` : "linear-gradient(to left top, #d3d3d3, #b6b6b6, #9a9a9a, #7f7f7f, #656565)");
-            $('#name_v').text(decoded.name || "");
-            $('#role_v').text(decoded.role || "");
-            $('#bio_v').text(decoded.bio || "");
-            $('#address_v').text(decoded.contact_details.address || "");
-            $('#email_v').text(decoded.contact_details.email || "");
-            $('#phone_v').text(decoded.contact_details.phone || "");
+    return existing;
+}
 
-            // Adding social links in the design 
-            const social_links_value = decoded.contact_details.social_links || [];
+
+// function for adding social_links in design 
+function addSocialLinks(data){
+    $('#social_links_v_container').html("");
+    const social_links_value = data || [];
             var social_links_output_dom = "";
             if(social_links_value.length > 0){
                 social_links_value.forEach(link => {
@@ -105,154 +95,348 @@ $(document).ready(function() {
             } else {
                 $('#social_links_v_container').hide();
             }
+}
+
+// function for adding work_experience
+function addWorkExperience(data){
+    $('#work_experience_v_container').html("");
+    const work_experience_value = data || [];
+    var work_experience_output_dom = "";
+    if(work_experience_value.length > 0){
+        work_experience_value.forEach(work => {
+            work_experience_output_dom += `
+                <div class="flex w-full justify-start items-start gap-1">
+                    <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                    <div class="flex flex-col gap-[4px]">
+                        <span class="text-lg font-bold p-c-f">${work.designation}</span>
+                        <span class="text-md p-c-f -mt-1">${work.org_name}</span>
+                        <span class="text-xs s-c-f">${work.start_date} - ${work.end_date}</span>
+                        <p class="text-xs text-black indent-3.5 text-justify">${work.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+        $('#work_experience_v_container').append(work_experience_output_dom);
+    }else{
+        $('#work_c').hide();
+    }
+}
+
+// function for adding education
+function addEducation(data){
+    $('#education_v_container').html("");
+    const education_value = data || [];
+    var education_output_dom = "";
+    if(education_value.length > 0){
+        education_value.forEach(edu => {
+            education_output_dom += `
+                <div class="flex w-full justify-start items-start gap-2">
+                    <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
+                    <div class="flex flex-col gap-[4px]">
+                        <span class="text-lg font-bold p-c-f">${edu.degree}</span>
+                        <span class="text-md p-c-f -mt-1">${edu.university} <span class="s-c-f ml-1">- ${edu.completed_year}</span></span>
+                        <p class="text-xs text-black indent-3.5 text-justify">${edu.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+        $('#education_v_container').append(education_output_dom);
+    }else{
+        $('#education_c').hide();
+    }
+} 
+
+// function for adding skill ranking 
+function addSkillRanking(data){
+    $('#skill_ranking_v_container').html("");
+    const skill_ranking_value = data || [];
+    var skill_ranking_output_dom = "";
+    if(skill_ranking_value.length > 0){
+        skill_ranking_value.forEach(skill => {
+            skill_ranking_output_dom += `
+                <span class="text-sm text-black">${skill.skill_name}</span>
+                <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+            `;
+                for(var i=0; i<skill.rank;i++){
+                    skill_ranking_output_dom += filled_box;
+                }
+                if(skill.rank<5){
+                    for(var j=0; j<5-skill.rank;j++){
+                        skill_ranking_output_dom += empty_box;
+                    }
+                }
+            skill_ranking_output_dom += '</div>';
+        });
+        $('#skill_ranking_v_container').append(skill_ranking_output_dom);
+    }else{
+        $('#skill_rank_c').hide();
+    }
+}
+
+// function for adding personal projects
+function addPersonalProjects(data){
+    $('#projects_v_container').html("");
+    const projects_value = data || [];
+    var project_output_dom = "";
+    if(projects_value.length > 0){
+        projects_value.forEach(pro => {
+            project_output_dom += `
+                <div class="flex w-full justify-start items-start gap-1">
+                    <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[4px]"></div>
+                    <div class="flex flex-col gap-[4px]">
+                        <span class="text-md p-c-f -mt-1">
+                                ${pro.title}
+                            <span class="text-xs s-c-f ml-1">
+                                ${pro.date} 
+                            <a href="${pro.href}" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-sm s-c-f ml-1 cursor-pointer"></i></a>
+                            </span>
+                        </span>
+                        <p class="text-xs text-black indent-3.5 text-justify">${pro.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+        $('#projects_v_container').append(project_output_dom);
+    }else{
+        $('#projects_c').hide();
+    }
+}
+
+// function for adding tech skills
+function addTechSkill(data){
+    $('#tech_skills_v_container').html("");
+    const tech_skills_value = data || [];
+    var tech_skills_output_dom = "";
+    if(tech_skills_value.length > 0){
+        tech_skills_value.forEach(techSkill => {
+            tech_skills_output_dom += `
+                <div class="flex flex-col gap-[4px]">
+                    <span class="text-sm p-c-f font-semibold">${techSkill.title}</span>
+                    <p class="text-xs text-black text-justify">${techSkill.description}</p>
+                </div>
+            `;
+        });
+        $('#tech_skills_v_container').append(tech_skills_output_dom);
+    }else{
+        $('#tech_skills_c').hide();
+    }
+}
+
+// function for adding languages
+function addLanguages(data){
+    $('#language_output_v_container').html("");
+    const languages_value = data || [];
+    var language_output_dom = "";
+    if(languages_value.length > 0){
+        languages_value.forEach(lan => {
+            language_output_dom += `
+                    <span class="text-sm text-black">${lan.language}</span>
+                    <div class="grid grid-cols-5 gap-x-2 h-[18px]">
+            `;
+                for(var i=0; i<lan.rank;i++){
+                    language_output_dom += filled_box;
+                }
+                if(lan.rank<5){
+                    for(var j=0; j<5-lan.rank;j++){
+                        language_output_dom += empty_box;
+                    }
+                }
+            language_output_dom += '</div>';
+        });
+        $('#language_output_v_container').append(language_output_dom);
+    }else{
+        $('#language_c').hide();
+    }
+}
+
+// function for adding interests
+function addInterests(data){
+    $('#interest_v_container').html("");
+    const interests_value = data || [];
+    var interests_output_dom = "";
+    if(interests_value.length > 0){
+        interests_value.forEach(interest => {
+            interests_output_dom += `
+                <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">${interest}</div>
+            `;
+        });
+        $('#interest_v_container').append(interests_output_dom);
+    }else{
+        $('#interests_c').hide();
+    }
+}
+
+$(document).ready(function() {
+    const token = window.location.hash.substring(1);
+
+    // variables
+    var image_url = "";
+    var social_link_id = 1;
+    var edu_id = 1;
+    var work_ex_id = 1;
+    var project_id = 1;
+    var tech_skill_id = 1; 
+    var skill_id = 1;
+    var language_id = 1;
+    var interest_id = 1;
+    
+
+    if (token) {
+        // showing design
+        $('#resume_design').addClass('flex');
+        $('#resume_form').addClass('hidden');
+        $('#generate-pdf').show().addClass('flex');
+        $('#rewrite-btn').show().addClass('flex');
+
+        const decoded = decodeJWT(token);
+        console.log("Decoded token", decoded);
+        if (decoded) {
+            $('#profile_image').css('background-image', decoded.image_url ? `url(${decoded.image_url})` : "linear-gradient(to left top, #d3d3d3, #b6b6b6, #9a9a9a, #7f7f7f, #656565)");
+            $('#name_v').text(decoded.name || "");
+            $('#role_v').text(decoded.role || "");
+            $('#bio_v').text(decoded.bio || "");
+            $('#address_v').text(decoded.contact_details.address || "");
+            $('#email_v').text(decoded.contact_details.email || "");
+            $('#phone_v').text(decoded.contact_details.phone || "");
+
+            let social_links_value = decoded.contact_details.social_links || [];
+            let work_experience_value = decoded.work_experience || [];
+            let education_value = decoded.education || [];
+            let projects_value = decoded.projects || [];
+            let skill_ranking_value = decoded.skill_ranking || [];
+            let tech_skills_value = decoded.tech_skills || [];
+            let languages_value = decoded.languages || [];
+            let interests_value = decoded.interests || [];
+
+            // Adding social links in the design 
+            addSocialLinks(social_links_value);
 
             //add Work experience in design
-            const work_experience_value = decoded.work_experience || [];
-            var work_experience_output_dom = "";
-            if(work_experience_value.length > 0){
-                work_experience_value.forEach(work => {
-                    work_experience_output_dom += `
-                        <div class="flex w-full justify-start items-start gap-1">
-                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
-                            <div class="flex flex-col gap-[4px]">
-                                <span class="text-lg font-bold p-c-f">${work.designation}</span>
-                                <span class="text-md p-c-f -mt-1">${work.org_name}</span>
-                                <span class="text-xs s-c-f">${work.start_date} - ${work.end_date}</span>
-                                <p class="text-xs text-black indent-3.5 text-justify">${work.description}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-                $('#work_experience_v_container').append(work_experience_output_dom);
-            }else{
-                $('#work_c').hide();
-            }
+            addWorkExperience(work_experience_value);
 
             //add education in design
-            const education_value = decoded.education || [];
-            var education_output_dom = "";
-            if(education_value.length > 0){
-                education_value.forEach(edu => {
-                    education_output_dom += `
-                        <div class="flex w-full justify-start items-start gap-2">
-                            <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[10px]"></div>
-                            <div class="flex flex-col gap-[4px]">
-                                <span class="text-lg font-bold p-c-f">${edu.degree}</span>
-                                <span class="text-md p-c-f -mt-1">${edu.university} <span class="s-c-f ml-1">- ${edu.completed_year}</span></span>
-                                <p class="text-xs text-black indent-3.5 text-justify">${edu.description}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-                $('#education_v_container').append(education_output_dom);
-            }else{
-                $('#education_c').hide();
-            }
+            addEducation(education_value);
 
             //add skill ranking in design
-            const skill_ranking_value = decoded.skill_ranking || [];
-            var skill_ranking_output_dom = "";
-            if(skill_ranking_value.length > 0){
-                skill_ranking_value.forEach(skill => {
-                    skill_ranking_output_dom += `
-                        <span class="text-sm text-black">${skill.skill_name}</span>
-                        <div class="grid grid-cols-5 gap-x-2 h-[18px]">
-                    `;
-                        for(var i=0; i<skill.rank;i++){
-                            skill_ranking_output_dom += filled_box;
-                        }
-                        if(skill.rank<5){
-                            for(var j=0; j<5-skill.rank;j++){
-                                skill_ranking_output_dom += empty_box;
-                            }
-                        }
-                    skill_ranking_output_dom += '</div>';
-                });
-                $('#skill_ranking_v_container').append(skill_ranking_output_dom);
-            }else{
-                $('#skill_rank_c').hide();
-            }
+            addSkillRanking(skill_ranking_value);
 
             //add personal projects in design
-            const projects_value = decoded.projects || [];
-            var project_output_dom = "";
-            if(projects_value.length > 0){
-                projects_value.forEach(pro => {
-                    project_output_dom += `
-                        <div class="flex w-full justify-start items-start gap-1">
-                           <div class="rounded-full min-w-[8px] min-h-[8px] p-c-b mt-[4px]"></div>
-                           <div class="flex flex-col gap-[4px]">
-                               <span class="text-md p-c-f -mt-1">
-                                     ${pro.title}
-                                    <span class="text-xs s-c-f ml-1">
-                                        ${pro.date} 
-                                    <a href="${pro.href}" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-sm s-c-f ml-1 cursor-pointer"></i></a>
-                                    </span>
-                                </span>
-                               <p class="text-xs text-black indent-3.5 text-justify">${pro.description}</p>
-                           </div>
-                       </div>
-                    `;
-                });
-                $('#projects_v_container').append(project_output_dom);
-            }else{
-                $('#projects_c').hide();
-            }
+            addPersonalProjects(projects_value);
 
             //add tech skills in design
-            const tech_skills_value = decoded.tech_skills || [];
-            var tech_skills_output_dom = "";
-            if(tech_skills_value.length > 0){
-                tech_skills_value.forEach(techSkill => {
-                    tech_skills_output_dom += `
-                        <div class="flex flex-col gap-[4px]">
-                            <span class="text-sm p-c-f font-semibold">${techSkill.title}</span>
-                            <p class="text-xs text-black text-justify">${techSkill.description}</p>
-                        </div>
-                    `;
-                });
-                $('#tech_skills_v_container').append(tech_skills_output_dom);
-            }else{
-                $('#tech_skills_c').hide();
-            }
+            addTechSkill(tech_skills_value);
 
             //add language in design
-            const languages_value = decoded.languages || [];
-            var language_output_dom = "";
-            if(languages_value.length > 0){
-                languages_value.forEach(lan => {
-                    language_output_dom += `
-                            <span class="text-sm text-black">${lan.language}</span>
-                            <div class="grid grid-cols-5 gap-x-2 h-[18px]">
-                    `;
-                        for(var i=0; i<lan.rank;i++){
-                            language_output_dom += filled_box;
-                        }
-                        if(lan.rank<5){
-                            for(var j=0; j<5-lan.rank;j++){
-                                language_output_dom += empty_box;
-                            }
-                        }
-                    language_output_dom += '</div>';
-                });
-                $('#language_output_v_container').append(language_output_dom);
-            }else{
-                $('#language_c').hide();
-            }
+            addLanguages(languages_value);
 
-             //add interests in design
-             const interests_value = decoded.interests || [];
-             var interests_output_dom = "";
-             if(interests_value.length > 0){
-                 interests_value.forEach(interest => {
-                     interests_output_dom += `
-                         <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">${interest}</div>
-                     `;
-                 });
-                 $('#interest_v_container').append(interests_output_dom);
-             }else{
-                $('#interests_c').hide();
-            }
+            //add interests in design
+            addInterests(interests_value); 
+
+            // click on rewrite-btn
+            $('#rewrite-btn').click(function(){
+
+                // preparing a payload 
+                let resume_data = {
+                    role: decoded.role,
+                    bio: decoded.bio,
+                }
+
+                if(work_experience_value.length > 0){
+                    let work_ex = [];
+                    work_experience_value.forEach(work => {
+                        work_ex.push({
+                            org_name: work.org_name,
+                            designation: work.designation,
+                            description: work.description,
+                            id: work.id
+                        })
+                    });
+                    resume_data = {
+                        ...resume_data,
+                        work_experience: work_ex
+                    }
+                }
+
+                if(education_value.length > 0){
+                    let education_ex = [];
+                    education_value.forEach(edu => {
+                        education_ex.push({
+                            degree: edu.degree,
+                            description: edu.description,
+                            id: edu.id
+                        })
+                    });
+                    resume_data = {
+                        ...resume_data,
+                        education: education_ex
+                    }
+                }
+
+                if(projects_value.length > 0){
+                    let projects_ex = [];
+                    projects_value.forEach(pro => {
+                        projects_ex.push({
+                            title: pro.title,
+                            description: pro.description,
+                            id: pro.id
+                        })
+                    });
+                    resume_data = {
+                        ...resume_data,
+                        projects: projects_ex
+                    }
+                }
+
+                if(tech_skills_value.length > 0){
+                    let tech_skills_ex = [];
+                    tech_skills_value.forEach(skill => {
+                        tech_skills_ex.push({
+                            title: skill.title,
+                            description: skill.description,
+                            id: skill.id
+                        })
+                    });
+                    resume_data = {
+                        ...resume_data,
+                        tech_skills: tech_skills_ex
+                    }
+                }
+                
+                $.ajax({
+                    url: `${API_endpoint_host}/api/resume`,  
+                    method: 'POST',                          
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },        
+                    data: JSON.stringify({ resume_data }),   
+                    success: function(response) {
+                        console.log('Success:', response);  
+                        if(response && response.success == true){
+                            const rewrited_data = response.data;
+                            $('#bio_v').text(rewrited_data?.bio || decoded.bio);
+                            $('#role_v').text(rewrited_data?.role || decoded.role);
+                            if(rewrited_data?.education){
+                                const mergedData = mergeData(education_value, rewrited_data?.education);
+                                console.log("merte", mergedData);
+                                addEducation(mergedData || education_value);
+
+                            }
+                            // addEducation(rewrited_data?.education || education_value);
+                            addTechSkill(rewrited_data?.tech_skills || tech_skills_value);
+                            addPersonalProjects(rewrited_data?.projects || projects_value);
+                            addWorkExperience(rewrited_data?.work_experience || work_experience_value);
+                        } else {
+                            alert("Something went wrong in server");
+                        }
+                    },
+                    error: function(error) {
+                        console.log('Error:', error); 
+                        alert("Something went wrong in server");
+                    }
+                });
+                
+            });
 
         } //end_decode_if
 
@@ -312,6 +496,7 @@ $(document).ready(function() {
         $('#resume_design').addClass('hidden');
         $('#resume_form').addClass('flex');
         $('#generate-pdf').hide().removeClass('flex');
+        $('#rewrite-btn').hide().removeClass('flex');
 
         //function to check if image is uploaded or not 
         function toggleUploadButton(){
@@ -692,7 +877,8 @@ $(document).ready(function() {
                 if(type && href){
                     social_links.push({
                         type,
-                        href: cleanURL(value)
+                        href: cleanURL(value),
+                        id: i
                     });
                 }
             }
@@ -708,7 +894,8 @@ $(document).ready(function() {
                         degree,
                         university,
                         completed_year,
-                        description
+                        description,
+                        id: i
                     });
                 }
             }
@@ -727,7 +914,8 @@ $(document).ready(function() {
                         designation,
                         description,
                         start_date,
-                        end_date
+                        end_date,
+                        id: i
                     });
                 }
             }
@@ -744,7 +932,8 @@ $(document).ready(function() {
                         title,
                         date,
                         href,
-                        description
+                        description,
+                        id: i
                     });
                 }
             }
@@ -757,7 +946,8 @@ $(document).ready(function() {
                 if(title){
                     tech_skills.push({
                         title,
-                        description
+                        description,
+                        id: i
                     });
                 }
             }
@@ -770,7 +960,8 @@ $(document).ready(function() {
                 if(skill_name){
                     skill_ranking.push({
                         skill_name,
-                        rank
+                        rank,
+                        id: i
                     });
                 }
             }
@@ -783,7 +974,8 @@ $(document).ready(function() {
                 if(language){
                     languages.push({
                         language,
-                        rank
+                        rank,
+                        id: i
                     });
                 }
             }

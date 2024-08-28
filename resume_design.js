@@ -1,6 +1,6 @@
 const filled_box = '<div class="w-full p-c-b rounded-sm"></div>';
 const empty_box = '<div class="bg-gray-200 rounded-sm"></div>';
-const API_endpoint_host = 'http://localhost:3000';
+const API_endpoint_host = 'https://www.yogihariyani.in';
 
 // Function to decode JWT token
 function decodeJWT(token) {
@@ -32,22 +32,18 @@ function cleanURL(url) {
 
 
 // Merge data function
-function mergeData(existing, updates) {
-    // Create a map from the new data for quick lookups
-    const updateMap = new Map(updates.map(item => [item.id, item]));
-
-    // Update existing data with new values
-    existing.forEach(item => {
-        if (updateMap.has(item.id)) {
-            const update = updateMap.get(item.id);
-            item.title = update.title || item.title;
-            item.description = update.description || item.description;
+function mergeData(existingData, apiData) {
+    return existingData.map(existingItem => {
+        const apiItem = apiData.find(item => item.id === existingItem.id);
+        if (apiItem) {
+            return {
+                ...existingItem,
+                ...apiItem
+            };
         }
+        return existingItem;
     });
-
-    return existing;
 }
-
 
 // function for adding social_links in design 
 function addSocialLinks(data){
@@ -266,6 +262,38 @@ function addInterests(data){
     }
 }
 
+// function to regenerate new token 
+function generatingTokenAndRedirect(decoded, rewrited_data){
+    const payload = {
+        name: decoded.name,
+        role: rewrited_data.role || decoded.role,
+        bio: rewrited_data.bio || decoded.bio,
+        image_url: decoded.image_url,
+        contact_details: {
+            email: decoded.contact_details.email,
+            phone: decoded.contact_details.phone,
+            address: decoded.contact_details.address,
+            social_links: decoded.contact_details.social_links
+        },
+        education: mergeData(decoded.education, rewrited_data?.education) || decoded.education,
+        work_experience: mergeData(decoded.work_experience, rewrited_data?.work_experience) || decoded.work_experience,
+        projects: mergeData(decoded.projects, rewrited_data?.projects) || decoded.projects,
+        tech_skills: mergeData(decoded.tech_skills, rewrited_data?.tech_skills) || decoded.tech_skills,
+        skill_ranking: decoded.skill_ranking,
+        languages: decoded.languages,
+        interests: decoded.interests,
+        rewrited: true
+    };
+
+    // Generate the JWT token
+    const token = generateJWT(payload);
+
+    // Set the fragment identifier (hash)
+    window.location.hash = token;  // Sets the fragment as the JWT token
+
+    // var currentPathWithHostname = window.location.href;
+    window.location.reload();
+}
 $(document).ready(function() {
     const token = window.location.hash.substring(1);
 
@@ -289,7 +317,6 @@ $(document).ready(function() {
         $('#rewrite-btn').show().addClass('flex');
 
         const decoded = decodeJWT(token);
-        console.log("Decoded token", decoded);
         if (decoded) {
             $('#profile_image').css('background-image', decoded.image_url ? `url(${decoded.image_url})` : "linear-gradient(to left top, #d3d3d3, #b6b6b6, #9a9a9a, #7f7f7f, #656565)");
             $('#name_v').text(decoded.name || "");
@@ -332,110 +359,139 @@ $(document).ready(function() {
             //add interests in design
             addInterests(interests_value); 
 
+            // showing popup for AI writing
+            setTimeout(function() {
+                if(!decoded.rewrited){
+                    $("#ai-popup").removeClass("hidden").hide().fadeIn(500);
+                }
+            }, 3000);
+            
+            $('#ai-popup-close').click(function(){
+                $("#ai-popup").fadeOut(500);
+            })
+
             // click on rewrite-btn
             $('#rewrite-btn').click(function(){
+                $("#ai-popup").fadeOut(500);
+                if(!decoded.rewrited){
+                    $("#loading-spinner").removeClass("hidden");
 
-                // preparing a payload 
-                let resume_data = {
-                    role: decoded.role,
-                    bio: decoded.bio,
-                }
-
-                if(work_experience_value.length > 0){
-                    let work_ex = [];
-                    work_experience_value.forEach(work => {
-                        work_ex.push({
-                            org_name: work.org_name,
-                            designation: work.designation,
-                            description: work.description,
-                            id: work.id
-                        })
-                    });
-                    resume_data = {
-                        ...resume_data,
-                        work_experience: work_ex
+                    // preparing a payload 
+                    let resume_data = {
+                        role: decoded.role,
+                        bio: decoded.bio,
                     }
-                }
 
-                if(education_value.length > 0){
-                    let education_ex = [];
-                    education_value.forEach(edu => {
-                        education_ex.push({
-                            degree: edu.degree,
-                            description: edu.description,
-                            id: edu.id
-                        })
-                    });
-                    resume_data = {
-                        ...resume_data,
-                        education: education_ex
-                    }
-                }
-
-                if(projects_value.length > 0){
-                    let projects_ex = [];
-                    projects_value.forEach(pro => {
-                        projects_ex.push({
-                            title: pro.title,
-                            description: pro.description,
-                            id: pro.id
-                        })
-                    });
-                    resume_data = {
-                        ...resume_data,
-                        projects: projects_ex
-                    }
-                }
-
-                if(tech_skills_value.length > 0){
-                    let tech_skills_ex = [];
-                    tech_skills_value.forEach(skill => {
-                        tech_skills_ex.push({
-                            title: skill.title,
-                            description: skill.description,
-                            id: skill.id
-                        })
-                    });
-                    resume_data = {
-                        ...resume_data,
-                        tech_skills: tech_skills_ex
-                    }
-                }
-                
-                $.ajax({
-                    url: `${API_endpoint_host}/api/resume`,  
-                    method: 'POST',                          
-                    "timeout": 0,
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },        
-                    data: JSON.stringify({ resume_data }),   
-                    success: function(response) {
-                        console.log('Success:', response);  
-                        if(response && response.success == true){
-                            const rewrited_data = response.data;
-                            $('#bio_v').text(rewrited_data?.bio || decoded.bio);
-                            $('#role_v').text(rewrited_data?.role || decoded.role);
-                            if(rewrited_data?.education){
-                                const mergedData = mergeData(education_value, rewrited_data?.education);
-                                console.log("merte", mergedData);
-                                addEducation(mergedData || education_value);
-                                // not working props
-                            }
-                            // addEducation(rewrited_data?.education || education_value);
-                            addTechSkill(rewrited_data?.tech_skills || tech_skills_value);
-                            addPersonalProjects(rewrited_data?.projects || projects_value);
-                            addWorkExperience(rewrited_data?.work_experience || work_experience_value);
-                        } else {
-                            alert("Something went wrong in server");
+                    if(work_experience_value.length > 0){
+                        let work_ex = [];
+                        work_experience_value.forEach(work => {
+                            work_ex.push({
+                                org_name: work.org_name,
+                                designation: work.designation,
+                                description: work.description,
+                                id: work.id
+                            })
+                        });
+                        resume_data = {
+                            ...resume_data,
+                            work_experience: work_ex
                         }
-                    },
-                    error: function(error) {
-                        console.log('Error:', error); 
-                        alert("Something went wrong in server");
                     }
-                });
-                
+
+                    if(education_value.length > 0){
+                        let education_ex = [];
+                        education_value.forEach(edu => {
+                            education_ex.push({
+                                degree: edu.degree,
+                                description: edu.description,
+                                id: edu.id
+                            })
+                        });
+                        resume_data = {
+                            ...resume_data,
+                            education: education_ex
+                        }
+                    }
+
+                    if(projects_value.length > 0){
+                        let projects_ex = [];
+                        projects_value.forEach(pro => {
+                            projects_ex.push({
+                                title: pro.title,
+                                description: pro.description,
+                                id: pro.id
+                            })
+                        });
+                        resume_data = {
+                            ...resume_data,
+                            projects: projects_ex
+                        }
+                    }
+
+                    if(tech_skills_value.length > 0){
+                        let tech_skills_ex = [];
+                        tech_skills_value.forEach(skill => {
+                            tech_skills_ex.push({
+                                title: skill.title,
+                                description: skill.description,
+                                id: skill.id
+                            })
+                        });
+                        resume_data = {
+                            ...resume_data,
+                            tech_skills: tech_skills_ex
+                        }
+                    }
+
+                    $.ajax({
+                        url: `${API_endpoint_host}/api/resume`,  
+                        method: 'POST',                          
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },        
+                        data: JSON.stringify({ resume_data }),   
+                        success: function(response) {  
+                            if(response && response.success == true){
+                                const rewrited_data = response.data;
+                                $('#bio_v').text(rewrited_data?.bio || decoded.bio);
+                                $('#role_v').text(rewrited_data?.role || decoded.role);
+                                if(rewrited_data?.education){
+                                    const mergedData = mergeData(education_value, rewrited_data?.education);
+                                    addEducation(mergedData || education_value);
+                                }
+                                if(rewrited_data?.tech_skills){
+                                    const mergedData = mergeData(tech_skills_value, rewrited_data?.tech_skills) 
+                                    addTechSkill(mergedData || tech_skills_value);
+
+                                }
+                                if(rewrited_data?.projects){
+                                    const mergedData = mergeData(projects_value, rewrited_data?.projects) 
+                                    addPersonalProjects(mergedData || projects_value);
+
+                                }
+                                if(rewrited_data?.work_experience){
+                                    const mergedData = mergeData(work_experience_value, rewrited_data?.work_experience) 
+                                    addWorkExperience(mergedData || work_experience_value);
+
+                                }
+
+                                $('#rewrite-btn').hide();
+                                generatingTokenAndRedirect(decoded, rewrited_data);
+                            } else {
+                                alert("Something went wrong in server");
+                            }
+                            $("#loading-spinner").addClass("hidden");
+                        },
+                        error: function(error) {
+                            console.error('Error:', error); 
+                            alert("Something went wrong in server");
+                            $("#loading-spinner").addClass("hidden");
+                        }
+                    });
+                } else {
+                    alert("You already rewrited with AI");
+                }
             });
 
         } //end_decode_if
@@ -473,9 +529,6 @@ $(document).ready(function() {
                 
                 setTimeout(() => {
                     const Image_URL = canvas.toDataURL('image/png');
-                    if(Image_URL){
-                        console.log(Image_URL);
-                    }
                 }, 4000);
                 // Add the image to the PDF at the center
                 pdf.addImage(canvas.toDataURL('image/png'), 'PNG', offsetX, offsetY, imgWidth, imgHeight);
@@ -485,10 +538,6 @@ $(document).ready(function() {
             }).catch(err => {
                 console.error("Error generating PDF: ", err);
             });
-        });
-
-        $('#go_back').click(function(){
-            window.location.href = window.location.origin;
         });
         
     } 
@@ -1006,7 +1055,8 @@ $(document).ready(function() {
                 tech_skills,
                 skill_ranking,
                 languages,
-                interests
+                interests,
+                rewrited: false
             };
 
             // Generate the JWT token

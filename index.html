@@ -56,12 +56,56 @@
        background-color: #183141;
     }
     .p-c-f{
-       color: rgb(24, 49, 65);
+       color: #183141;
+    }
+    @keyframes dot1 {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+    @keyframes dot2 {
+        0%, 50%, 100% { opacity: 0; }
+        75% { opacity: 1; }
+    }
+    @keyframes dot3 {
+        0%, 75%, 100% { opacity: 0; }
+        90% { opacity: 1; }
+    }
+    .dot-1 {
+        animation: dot1 1.5s infinite;
+    }
+    .dot-2 {
+        animation: dot2 1.5s infinite;
+    }
+    .dot-3 {
+        animation: dot3 1.5s infinite;
+    }
+    @keyframes border {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+
+    /* Apply the animation to an element */
+    .animate-border {
+        animation: border 4s ease infinite;
+        background: linear-gradient(270deg, #ff7e5f, #feb47b); /* Example gradient */
+        background-size: 200% 200%;
+        border-radius: 8px; /* Add border-radius if needed */
+        padding: 10px;
+        display: inline-block;
     }
     </style>
   </head>
   <body>
-
+    <div id="loading-spinner" class="hidden fixed inset-0 flex items-center justify-center bg-gray-100 z-30 backdrop-blur-sm bg-opacity-50">
+        <div class="text-[23px] text-gray-700 font-semibold">
+            Generating your resume
+            <span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span>
+        </div>
+    </div> 
     <!-- Resume Form -->
     <div id="resume_form" class="flex flex-col w-full h-screen bg-white justify-center items-center">
       <div class="flex flex-col w-[1000px] bg-gray-50 h-full pt-6">
@@ -732,11 +776,22 @@
              </div>
         </div>
     </div>
-    <button class="absolute bottom-[20px] right-[120px] bg-transparent border border-2 border-green-700 rounded-xl text-green-600 font-medium rounded-full w-fit px-4 py-2 flex justify-center items-center" id="rewrite-btn">
-        Rewrite with AI
-    </button>
-    <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-[50px] h-[50px] flex justify-center items-center " id="generate-pdf">
+    <!-- AI Rewrite Popup -->
+    <div id="ai-popup" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm mx-auto text-center flex justify-center items-center w-full flex-col">
+            <div class="flex justify-evenly items-center w-full mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Your Resume Looks Great!</h2>
+                <i class="fa-regular fa-xl fa-circle-xmark text-gray-500" id="ai-popup-close"></i>
+            </div>
+            <p class="text-gray-600 mb-6">But we can help you make it even better. Let our AI give it a professional polish!</p>
+            <button id="rewrite-btn" class="animate-border inline-block rounded-full bg-white bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%] p-1 p-c-f hover:bg-[length:0%_0%] hover:text-white">
+                <span class="block rounded-full bg-white hover:bg-[#183141] hover:text-white px-5 py-3 font-bold"> Rewrite with AI </span>
+              </button>
+        </div>
+    </div>
+    
+    <!-- <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-[50px] h-[50px] flex justify-center items-center " id="generate-pdf">
         <i class="fa-solid fa-download" style="color: #ffffff;"></i>
-    </button>
+    </button> -->
   </body>
 </html>

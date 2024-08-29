@@ -253,7 +253,7 @@ function addInterests(data){
     if(interests_value.length > 0){
         interests_value.forEach(interest => {
             interests_output_dom += `
-                <div class="px-2 py-1 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit">${interest}</div>
+                <div class="px-2 min-h-[25px] border border-[#183141] rounded-md flex justify-center items-center text-sm w-fit"><span class="my-2">${interest}</span></div>
             `;
         });
         $('#interest_v_container').append(interests_output_dom);
@@ -546,6 +546,65 @@ $(document).ready(function() {
         $('#resume_form').addClass('flex');
         $('#generate-pdf').hide().removeClass('flex');
         $('#rewrite-btn').hide().removeClass('flex');
+
+        $('#start').click(function () {
+            $('#step1').removeClass('hidden').hide();
+            $('#step1').fadeIn(300);
+        });
+
+        $('#cancel1').click(function () {
+            $(`#step1`).fadeOut(300);
+        });
+
+        $('#next1').click(function () {
+            $('#step1').fadeOut(300);
+            $('#step2').removeClass('hidden').hide();
+            $('#step2').fadeIn(300);
+        });
+
+        $('#cancel2').click(function () {
+            $(`#step2`).fadeOut(300);
+        });
+
+        $('#next2').click(function () {
+            $('#step2').fadeOut(300);
+            $('#step3').removeClass('hidden').hide();
+            $('#step3').fadeIn(300);
+        });
+
+        $('#cancel3').click(function () {
+            $(`#step3`).fadeOut(300);
+        });
+
+        $('#next3').click(function () {
+            $('#step3').fadeOut(300);
+            $('#step4').removeClass('hidden').hide();
+            $('#step4').fadeIn(300);
+        });
+
+        $('#cancel4').click(function () {
+            $(`#step4`).fadeOut(300);
+        });
+
+        $('#next4').click(function () {
+            $('#step4').fadeOut(300);
+            $('#step5').removeClass('hidden').hide();
+            $('#step5').fadeIn(300);
+        });
+
+        $('#cancel5').click(function () {
+            $(`#step5`).fadeOut(300);
+        });
+
+        $('#next5').click(function () {
+            $('#step5').fadeOut(300);
+            $('#step6').removeClass('hidden').hide();
+            $('#step6').fadeIn(300);
+        });
+
+        $('#cancel6').click(function () {
+            $(`#step6`).fadeOut(300);
+        });
 
         //function to check if image is uploaded or not 
         function toggleUploadButton(){
@@ -904,6 +963,7 @@ $(document).ready(function() {
 
         // generate a JWT token when submitted
         $('#submit').on('click', function() {
+            $(`#step6`).fadeOut(300);
             const name = $('#full_name').val();
             const role = $('#role').val();
             const bio = $('#bio').val();

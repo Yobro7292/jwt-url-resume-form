@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Person Info</title>
+    <title>InstaResume</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.5.23/jsrsasign-all-min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -97,9 +97,30 @@
         padding: 10px;
         display: inline-block;
     }
+    @keyframes GlowingBorder {
+        0% {
+        background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .glowing-text {
+        animation: GlowingBorder 4s linear infinite;
+        background: linear-gradient(270deg, #A0D468, #4FC1E9, #FFCE54, #FC6E51, #ED5565, #AC92EC);
+        background-size: 400% 400%;
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+    }
     </style>
   </head>
   <body>
+    <!-- loading -->
     <div id="loading-spinner" class="hidden fixed inset-0 flex items-center justify-center bg-gray-100 z-30 backdrop-blur-sm bg-opacity-50">
         <div class="text-[23px] text-gray-700 font-semibold">
             Generating your resume
@@ -108,279 +129,318 @@
     </div> 
     <!-- Resume Form -->
     <div id="resume_form" class="flex flex-col w-full h-screen bg-white justify-center items-center">
-      <div class="flex flex-col w-[1000px] bg-gray-50 h-full pt-6">
-
+      <div class="flex flex-col w-[1000px] justify-center items-center h-full pt-6">
         <!-- Title of the resume -->
         <div class="flex flex-col justify-center items-center w-full gap-2">
-          <Text class="font-bold text-4xl font-[Nunito]">Quick Resume</Text>
-          <Text
-            class="text-gray-700 text-xl text-center"
+          <span class="font-bold text-5xl font-[Nunito] glowing-text">InstaResume</span>
+          <span
+            class="text-gray-700 text-2xl text-center mt-1"
             style="
               font-family: 'Edu VIC WA NT Beginner', cursive;
               font-weight: 500;
               font-style: normal;
             "
           >
-            Create a stunning resume, No login, No database.
-            <br />
-            Share only with URL
-          </Text>
+          Craft Your Perfect Resume in Minutes. No Sign-Up, No Storage. <br /> Share Instantly via URL.
+          </span>
+          <section class="text-center mt-8">
+              <button id="start" class="inline-block bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700"
+              style="
+                font-family: 'Nunito';
+                font-weight: 500;
+                font-style: normal;
+              ">
+                  Start Building Your Resume
+              </button>
+          </section>
         </div>
-
         <!-- form  -->
         <div class="container mt-4">
-            <!-- personal Details -->
-            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                        <p class="font-medium text-lg">Personal Details</p>
-                        <p>Please fill out all the fields.</p>
-                    </div>
-                <div class="lg:col-span-2">
-                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                        <div class="md:col-span-3">
-                            <label for="full_name">Full Name</label>
-                            <input
-                            type="text"
-                            name="full_name"
-                            id="full_name"
-                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                            value=""
-                            placeholder="John Doe"
-                            />
+            <div id="step1" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto"> 
+                <!-- personal Details -->
+                <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3 p-1">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">Personal Details</p>
+                            <p>Please fill out all the fields.</p>
                         </div>
-
-                        <div class="md:col-span-2">
-                            <label for="role">Role</label>
-                            <input
-                            type="text"
-                            name="role"
-                            id="role"
-                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                            value=""
-                            placeholder="Senior Software Developer"
-                            />
-                        </div>
-
-                        <div class="md:col-span-5">
-                            <label for="bio">Short Bio</label>
-                            <textarea
-                            rows="4"
-                            name="bio"
-                            id="bio"
-                            class="border mt-1 rounded px-4 w-full bg-gray-50"
-                            placeholder="Describe yourself here..."
-                            ></textarea>
-                        </div>
-
-                        <div class="md:col-span-3">
-                            <label for="email">Email Address</label>
-                            <input
-                            type="text"
-                            name="email"
-                            id="email"
-                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                            value=""
-                            placeholder="email@domain.com"
-                            />
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <label for="phone">Phone</label>
-                            <div class="flex w-full items-center gap-0">
-                                <span class="h-10 border mt-1 flex justify-center items-center rounded px-4 w-fit bg-gray-50">+91</span>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    id="phone"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="XXXXX XXXXX"
-                                />
-                            </div>
-                        </div>
-
-                        <div class="md:col-span-5">
-                            <label for="address">Address / Street</label>
-                            <input
-                            type="text"
-                            name="address"
-                            id="address"
-                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                            value=""
-                            placeholder=""
-                            />
-                        </div>
-
-                    <!-- select social links -->
-                        <div class="md:col-span-5 flex justify-between items-end gap-2">
-                            <div class="w-full" id="social_links_container">
-                                <div class="flex w-full gap-2 items-center">
-                                    <select class="h-10 border mt-1 rounded px-4 w-1/3 bg-gray-50" name="social_link1_type" id="social_link1_type">
-                                        <option value="linkedin">linkedin</option>
-                                        <option value="website">website</option>
-                                        <option value="instagram">instagram</option>
-                                        <option value="twitter">twitter</option>
-                                    </select>
+                        <div class="lg:col-span-2">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                                <div class="md:col-span-3">
+                                    <label for="full_name">
+                                        <div class="flex">Full Name<svg width="8px" height="8px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 2V22M19.0711 4.92893L4.92893 19.0711M22 12H2M19.0711 19.0711L4.92893 4.92893" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div>
+                                    </label>
                                     <input
                                     type="text"
-                                    name="social_link1_value"
+                                    name="full_name"
+                                    id="full_name"
                                     class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    placeholder="Enter URL"
-                                    id="social_link1_value"
+                                    value=""
+                                    placeholder="John Doe"
                                     />
                                 </div>
-                            </div>
-                            <button id="add_more_links" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-fit text-sm mt-2">
-                                +
-                            </button>
-                        </div>
-
-                    <div class="md:col-span-5">
-                        <label for="iamge">Profile Image</label>
-                        <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10" id="drop-area">
-                            <div id="uploaded_image" class="max-w-1/3 w-[200px] h-[200px] rounded-md bg-center bg-cover"></div>
-                            <div id="upload_button" class="w-full flex justify-center items-center">
-                                <div class="text-center">
-                                  <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-                                  </svg>
-                                  <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                      <span>Upload a file</span>
-                                      <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*">
-                                    </label>
-                                    <p class="pl-1">or drag and drop</p>
-                                  </div>
+        
+                                <div class="md:col-span-2">
+                                    <label for="role">Role</label>
+                                    <input
+                                    type="text"
+                                    name="role"
+                                    id="role"
+                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                    value=""
+                                    placeholder="Senior Software Developer"
+                                    />
+                                </div>
+        
+                                <div class="md:col-span-5">
+                                    <label for="bio">Short Bio</label>
+                                    <textarea
+                                    rows="4"
+                                    name="bio"
+                                    id="bio"
+                                    class="border mt-1 rounded px-4 w-full bg-gray-50"
+                                    placeholder="Describe yourself here..."
+                                    ></textarea>
+                                </div>
+        
+                                <div class="md:col-span-3">
+                                    <label for="email">Email Address</label>
+                                    <input
+                                    type="text"
+                                    name="email"
+                                    id="email"
+                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                    value=""
+                                    placeholder="email@domain.com"
+                                    />
+                                </div>
+        
+                                <div class="md:col-span-2">
+                                    <label for="phone">Phone</label>
+                                    <div class="flex w-full items-center gap-0">
+                                        <span class="h-10 border mt-1 flex justify-center items-center rounded px-4 w-fit bg-gray-50">+91</span>
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            id="phone"
+                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                            value=""
+                                            placeholder="XXXXX XXXXX"
+                                        />
+                                    </div>
+                                </div>
+        
+                                <div class="md:col-span-5">
+                                    <label for="address">Address / Street</label>
+                                    <input
+                                    type="text"
+                                    name="address"
+                                    id="address"
+                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                    value=""
+                                    placeholder=""
+                                    />
+                                </div>
+        
+                            <!-- select social links -->
+                                <div class="md:col-span-5 flex justify-between items-end gap-2">
+                                    <div class="w-full" id="social_links_container">
+                                        <div class="flex w-full gap-2 items-center">
+                                            <select class="h-10 border mt-1 rounded px-4 w-1/3 bg-gray-50" name="social_link1_type" id="social_link1_type">
+                                                <option value="linkedin">linkedin</option>
+                                                <option value="website">website</option>
+                                                <option value="instagram">instagram</option>
+                                                <option value="twitter">twitter</option>
+                                            </select>
+                                            <input
+                                            type="text"
+                                            name="social_link1_value"
+                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                            placeholder="Enter URL"
+                                            id="social_link1_value"
+                                            />
+                                        </div>
+                                    </div>
+                                    <button id="add_more_links" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-fit text-sm mt-2">
+                                        +
+                                    </button>
+                                </div>
+        
+                            <div class="md:col-span-5">
+                                <label for="iamge"><div class="flex">Profile Image<svg width="8px" height="8px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 2V22M19.0711 4.92893L4.92893 19.0711M22 12H2M19.0711 19.0711L4.92893 4.92893" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div></label>
+                                <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10" id="drop-area">
+                                    <div id="uploaded_image" class="max-w-1/3 w-[200px] h-[200px] rounded-md bg-center bg-cover"></div>
+                                    <div id="upload_button" class="w-full flex justify-center items-center">
+                                        <div class="text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                                        </svg>
+                                        <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                                            <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                                            <span>Upload a file</span>
+                                            <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*">
+                                            </label>
+                                            <p class="pl-1">or drag and drop</p>
+                                        </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                          </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end items-center w-full col-span-3 mt-2 gap-2">
+                            <button id="cancel1" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Cancel
+                            </button>
+                            <button id="next1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Next
+                            </button>
+                        </div>
                     </div>
-                    </div>
-                </div>
                 </div>
             </div>
 
             <!-- Education details -->
-            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                        <p class="font-medium text-lg">Education Details</p>
-                        <p>Please fill out all the fields.</p>
-                    </div>
-                    <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="edu_details">
-                            <div class="md:col-span-2">
-                                <label for="edu1_degree">Degree Name</label>
-                                <input
-                                    type="text"
-                                    name="edu1_degree"
-                                    id="edu1_degree"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="Master in Computer Science"
-                                />
+            <div id="step2" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto"> 
+                <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">Education Details</p>
+                            <p>Everything is optional</p>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="edu_details">
+                                <div class="md:col-span-2">
+                                    <label for="edu1_degree">Degree Name</label>
+                                    <input
+                                        type="text"
+                                        name="edu1_degree"
+                                        id="edu1_degree"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="Master in Computer Science"
+                                    />
+                                </div>
+                                <div class="md:col-span-3">
+                                    <label for="edu1_university">University Name</label>
+                                    <input
+                                        type="text"
+                                        name="edu1_university"
+                                        id="edu1_university"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="Saint Pal University, CA"
+                                    />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="edu1_date">Attend Date</label>
+                                    <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="edu1_date" name="edu1_date">
+                                </div>
+                                <div class="md:col-span-3">
+                                    <label for="edu1_description">Short Description</label>
+                                    <input
+                                        type="text"
+                                        name="edu1_description"
+                                        id="edu1_description"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder=""
+                                    />
+                                </div>
                             </div>
-                            <div class="md:col-span-3">
-                                <label for="edu1_university">University Name</label>
-                                <input
-                                    type="text"
-                                    name="edu1_university"
-                                    id="edu1_university"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="Saint Pal University, CA"
-                                />
-                            </div>
-                            <div class="md:col-span-2">
-                                <label for="edu1_date">Attend Date</label>
-                                <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="edu1_date" name="edu1_date">
-                            </div>
-                            <div class="md:col-span-3">
-                                <label for="edu1_description">Short Description</label>
-                                <input
-                                    type="text"
-                                    name="edu1_description"
-                                    id="edu1_description"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder=""
-                                />
+                            <div class="md:col-span-5 flex justify-center items-center mt-6">
+                                <button
+                                    id="add_more_education"
+                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                                >
+                                     Add More Education Details
+                                </button>
                             </div>
                         </div>
-                        <div class="md:col-span-5 flex justify-center items-center mt-6">
-                            <button
-                                id="add_more_education"
-                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                            >
-                                 Add More Education Details
+                        <div class="flex justify-end items-center w-full col-span-3 mt-2 gap-2">
+                            <button id="cancel2" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Cancel
+                            </button>
+                            <button id="next2" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Next
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <!-- Work Experience details -->
-            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                        <p class="font-medium text-lg">Work Experience</p>
-                        <p>Please fill out all the fields.</p>
-                    </div>
-                    
-                    <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="work_details">
-                            <div class="md:col-span-3">
-                                <label for="org1_name">Orgenization Name</label>
-                                <input
-                                    type="text"
-                                    name="org1_name"
-                                    id="org1_name"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="XYZ LLC"
-                                />
-                            </div>
-                            <div class="md:col-span-2">
-                                <label for="org1_designation">Designation</label>
-                                <input
-                                    type="text"
-                                    name="org1_designation"
-                                    id="org1_designation"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="Junior Software Developer"
-                                />
-                            </div>
-                            <div class="md:col-span-5">
-                                <label for="org1_description">Description</label>
-                                <textarea
-                                    rows="3"
-                                    name="org1_description"
-                                    id="org1_description"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    placeholder=""
-                                ></textarea> 
-                            </div>
-                            <div class="md:col-span-5">
-                                <div class="flex items-center justify-between w-full gap-4">
-                                    <div class="w-full">
-                                        <label for="org1_start_date">Start Date</label>
-                                        <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="org1_start_date" name="org1_start_date">
-                                    </div>
-                                    <div class="w-full">
-                                        <label for="org1_end_date">End Date</label>
-                                        <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="org1_end_date" name="org1_end_date">
+            <div id="step3" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto"> 
+                <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">Work Experience</p>
+                            <p>Everything is optional</p>
+                        </div>
+                        
+                        <div class="lg:col-span-2">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="work_details">
+                                <div class="md:col-span-3">
+                                    <label for="org1_name">Orgenization Name</label>
+                                    <input
+                                        type="text"
+                                        name="org1_name"
+                                        id="org1_name"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="XYZ LLC"
+                                    />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="org1_designation">Designation</label>
+                                    <input
+                                        type="text"
+                                        name="org1_designation"
+                                        id="org1_designation"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder="Junior Software Developer"
+                                    />
+                                </div>
+                                <div class="md:col-span-5">
+                                    <label for="org1_description">Description</label>
+                                    <textarea
+                                        rows="3"
+                                        name="org1_description"
+                                        id="org1_description"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        placeholder=""
+                                    ></textarea> 
+                                </div>
+                                <div class="md:col-span-5">
+                                    <div class="flex items-center justify-between w-full gap-4">
+                                        <div class="w-full">
+                                            <label for="org1_start_date">Start Date</label>
+                                            <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="org1_start_date" name="org1_start_date">
+                                        </div>
+                                        <div class="w-full">
+                                            <label for="org1_end_date">End Date</label>
+                                            <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="org1_end_date" name="org1_end_date">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="md:col-span-5 flex justify-center items-center mt-6">
+                                <button
+                                    id="add_more_work_experience"
+                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                                >
+                                     Add Another Work Experience
+                                </button>
+                            </div>
                         </div>
-                        <div class="md:col-span-5 flex justify-center items-center mt-6">
-                            <button
-                                id="add_more_work_experience"
-                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                            >
-                                 Add Another Work Experience
+                        <div class="flex justify-end items-center w-full col-span-3 mt-2 gap-2">
+                            <button id="cancel3" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Cancel
+                            </button>
+                            <button id="next3" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Next
                             </button>
                         </div>
                     </div>
@@ -389,57 +449,67 @@
 
 
             <!-- Projects details -->
-            <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                        <p class="font-medium text-lg">Projects Details</p>
-                        <p>Please fill out all the fields.</p>
-                    </div>
-                    <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="project_details">
-                            <div class="md:col-span-3">
-                                <label for="pro1_title">Title</label>
-                                <input
-                                    type="text"
-                                    name="pro1_title"
-                                    id="pro1_title"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
+            <div id="step4" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto">
+                <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">Projects Details</p>
+                            <p>Everything is optional</p>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="project_details">
+                                <div class="md:col-span-3">
+                                    <label for="pro1_title">Title</label>
+                                    <input
+                                        type="text"
+                                        name="pro1_title"
+                                        id="pro1_title"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder=""
+                                    />
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="pro1_date">Completed Date</label>
+                                    <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="pro1_date" name="pro1_date">
+                                </div>
+                                <div class="md:col-span-5">
+                                    <label for="pro1_href">Project Link</label>
+                                    <input
+                                        type="text"
+                                        name="pro1_href"
+                                        id="pro1_href"
+                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                        value=""
+                                        placeholder=""
+                                    />
+                                </div>
+                                <div class="md:col-span-5">
+                                    <label for="pro1_description">Description</label>
+                                    <textarea
+                                    rows="3"
+                                    name="pro1_description"
+                                    id="pro1_description"
+                                    class="border mt-1 rounded px-4 w-full bg-gray-50"
                                     placeholder=""
-                                />
+                                    ></textarea>
+                                </div>
                             </div>
-                            <div class="md:col-span-2">
-                                <label for="pro1_date">Completed Date</label>
-                                <input class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" type="date" id="pro1_date" name="pro1_date">
-                            </div>
-                            <div class="md:col-span-5">
-                                <label for="pro1_href">Project Link</label>
-                                <input
-                                    type="text"
-                                    name="pro1_href"
-                                    id="pro1_href"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder=""
-                                />
-                            </div>
-                            <div class="md:col-span-5">
-                                <label for="pro1_description">Description</label>
-                                <textarea
-                                rows="3"
-                                name="pro1_description"
-                                id="pro1_description"
-                                class="border mt-1 rounded px-4 w-full bg-gray-50"
-                                placeholder=""
-                                ></textarea>
+                            <div class="md:col-span-5 flex justify-center items-center mt-6">
+                                <button
+                                    id="add_more_project"
+                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                                >
+                                     Add Another Project
+                                </button>
                             </div>
                         </div>
-                        <div class="md:col-span-5 flex justify-center items-center mt-6">
-                            <button
-                                id="add_more_project"
-                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                            >
-                                 Add Another Project
+                        <div class="flex justify-end items-center w-full col-span-3 mt-2 gap-2">
+                            <button id="cancel4" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Cancel
+                            </button>
+                            <button id="next4" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Next
                             </button>
                         </div>
                     </div>
@@ -447,168 +517,179 @@
             </div>
 
              <!-- Technical skills details -->
-             <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                        <p class="font-medium text-lg">Technical Skills</p>
-                        <p>Please fill out all the fields.</p>
-                    </div>
-                    <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="tech_skills_details">
-                            <div class="md:col-span-5">
-                                <label for="skill1_name">Skill Name</label>
-                                <input
-                                    type="text"
-                                    name="skill1_name"
-                                    id="skill1_name"
-                                    class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                    value=""
-                                    placeholder="Master in UI designing"
-                                />
-                            </div>
-                            <div class="md:col-span-5">
-                                <label for="skill1_description">How long you familer with this skill</label>
-                                <textarea
-                                rows="3"
-                                name="skill1_description"
-                                id="skill1_description"
-                                class="border mt-1 rounded px-4 w-full bg-gray-50"
-                                placeholder=""
-                                ></textarea>
-                            </div>
+             <div id="step5" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto">
+                <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">Technical Skills</p>
+                            <p>Everything is optional</p>
                         </div>
-                        <div class="md:col-span-5 flex justify-center items-center mt-6">
-                            <button
-                                id="add_more_skill"
-                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                            >
-                                 Add Another Skill
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             <!-- Optional skills details -->
-             <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                        <p class="font-medium text-lg">Optional Details</p>
-                        <p>Please fill out all the fields.</p>
-                    </div>
-                    <div class="lg:col-span-2 flex flex-col gap-8">
-
-                        <div class="flex flex-col gap-4">
-                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="skill_set">
+                        <div class="lg:col-span-2">
+                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="tech_skills_details">
                                 <div class="md:col-span-5">
-                                    <span class="text-lg">Please rank your special skills</span>
-                                </div>
-                                <div class="md:col-span-4">
-                                    <label for="sp_skill1_name">Skill Name</label>
+                                    <label for="skill1_name">Skill Name</label>
                                     <input
                                         type="text"
-                                        name="sp_skill1_name"
-                                        id="sp_skill1_name"
+                                        name="skill1_name"
+                                        id="skill1_name"
                                         class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                                         value=""
-                                        placeholder="Python Programming"
+                                        placeholder="Master in UI designing"
                                     />
                                 </div>
-                                <div class="md:col-span-1">
-                                    <label for="sp_skill1_rank">Rank</label>
-                                    <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="sp_skill1_rank" id="sp_skill1_rank">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+                                <div class="md:col-span-5">
+                                    <label for="skill1_description">How long you familer with this skill</label>
+                                    <textarea
+                                    rows="3"
+                                    name="skill1_description"
+                                    id="skill1_description"
+                                    class="border mt-1 rounded px-4 w-full bg-gray-50"
+                                    placeholder=""
+                                    ></textarea>
                                 </div>
                             </div>
-                            <div class="md:col-span-5 flex justify-center items-center mt-2">
+                            <div class="md:col-span-5 flex justify-center items-center mt-6">
                                 <button
-                                    id="add_more_sp_skill"
+                                    id="add_more_skill"
                                     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
                                 >
                                      Add Another Skill
                                 </button>
                             </div>
                         </div>
-
-                        <div class="flex flex-col gap-4">
-                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="language_set">
-                                <div class="md:col-span-5">
-                                    <span class="text-lg">Please define which languages are you can prefer</span>
-                                </div>
-                                <div class="md:col-span-4">
-                                    <label for="lan1_name">Language 1</label>
-                                    <input
-                                        type="text"
-                                        name="lan1_name"
-                                        id="lan1_name"
-                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                        value=""
-                                        placeholder="English"
-                                    />
-                                </div>
-                                <div class="md:col-span-1">
-                                    <label for="lan1_rank">Rank</label>
-                                    <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="lan1_rank" id="lan1_rank">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="md:col-span-5 flex justify-center items-center mt-2">
-                                <button
-                                    id="add_more_lan"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                                >
-                                     Add Another Language
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-4">
-                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="interests_details">
-                                <div class="md:col-span-5">
-                                    <span class="text-lg">Do you have any other interests?</span>
-                                </div>
-                                <div class="md:col-span-5">
-                                    <input
-                                        type="text"
-                                        name="int1"
-                                        id="int1"
-                                        class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                                        value=""
-                                        placeholder="Playing video games"
-                                    />
-                                </div>
-                            </div>
-                            <div class="md:col-span-5 flex justify-center items-center">
-                                <button
-                                    id="add_more_int"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
-                                >
-                                     Add Another Interest
-                                </button>
-                            </div>
+                        <div class="flex justify-end items-center w-full col-span-3 mt-2 gap-2">
+                            <button id="cancel5" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Cancel
+                            </button>
+                            <button id="next5" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Next
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+             </div>
 
-            <!-- submit button -->
-            <div class="md:col-span-5 text-right mt-6 mb-16">
-                <div class="inline-flex items-end">
-                    <button id="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded">
-                        Submit
-                    </button>
+             <!-- Optional skills details -->
+             <div id="step6" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto">
+                <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
+                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                            <p class="font-medium text-lg">Optional Details</p>
+                            <p>Everything is optional</p>
+                        </div>
+                        <div class="lg:col-span-2 flex flex-col gap-8">
+    
+                            <div class="flex flex-col gap-4">
+                                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="skill_set">
+                                    <div class="md:col-span-5">
+                                        <span class="text-lg">Please rank your special skills</span>
+                                    </div>
+                                    <div class="md:col-span-4">
+                                        <label for="sp_skill1_name">Skill Name</label>
+                                        <input
+                                            type="text"
+                                            name="sp_skill1_name"
+                                            id="sp_skill1_name"
+                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                            value=""
+                                            placeholder="Python Programming"
+                                        />
+                                    </div>
+                                    <div class="md:col-span-1">
+                                        <label for="sp_skill1_rank">Rank</label>
+                                        <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="sp_skill1_rank" id="sp_skill1_rank">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-5 flex justify-center items-center mt-2">
+                                    <button
+                                        id="add_more_sp_skill"
+                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                                    >
+                                         Add Another Skill
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <div class="flex flex-col gap-4">
+                                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="language_set">
+                                    <div class="md:col-span-5">
+                                        <span class="text-lg">Please define which languages are you can prefer</span>
+                                    </div>
+                                    <div class="md:col-span-4">
+                                        <label for="lan1_name">Language 1</label>
+                                        <input
+                                            type="text"
+                                            name="lan1_name"
+                                            id="lan1_name"
+                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                            value=""
+                                            placeholder="English"
+                                        />
+                                    </div>
+                                    <div class="md:col-span-1">
+                                        <label for="lan1_rank">Rank</label>
+                                        <select class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" name="lan1_rank" id="lan1_rank">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-5 flex justify-center items-center mt-2">
+                                    <button
+                                        id="add_more_lan"
+                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                                    >
+                                         Add Another Language
+                                    </button>
+                                </div>
+                            </div>
+    
+                            <div class="flex flex-col gap-4">
+                                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5" id="interests_details">
+                                    <div class="md:col-span-5">
+                                        <span class="text-lg">Do you have any other interests?</span>
+                                    </div>
+                                    <div class="md:col-span-5">
+                                        <input
+                                            type="text"
+                                            name="int1"
+                                            id="int1"
+                                            class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                                            value=""
+                                            placeholder="Playing video games"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="md:col-span-5 flex justify-center items-center">
+                                    <button
+                                        id="add_more_int"
+                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 w-fit"
+                                    >
+                                         Add Another Interest
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end items-center w-full col-span-3 mt-2 gap-2">
+                            <button id="cancel6" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Cancel
+                            </button>
+                            <button id="submit" class="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded w-auto">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+             </div>            
         </div>
       </div>
     </div>
@@ -635,7 +716,7 @@
                         <path d="M1200 0L0 0 892.25 114.72 1200 0z" class="shape-fill"></path>
                     </svg>
                 </div>
-                <div class="w-[150px] h-[150px] bg-cover bg-center rounded-full absolute right-[30%] top-[63%] border border-offset-[2px] border-4 border-white z-10" style="background-image: url(https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)" id="profile_image"></div>
+                <div class="w-[150px] h-[150px] bg-cover bg-center rounded-full absolute right-[30%] top-[63%] border border-offset-[2px] border-4 border-white z-10" id="profile_image"></div>
             </div>
 
             <!-- basic details  -->
@@ -790,8 +871,8 @@
         </div>
     </div>
     
-    <!-- <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-[50px] h-[50px] flex justify-center items-center " id="generate-pdf">
-        <i class="fa-solid fa-download" style="color: #ffffff;"></i>
-    </button> -->
+    <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-fit px-6 py-2 gap-2 flex justify-center items-center text-white font-bold font-[Nunito] text-xl hover:bg-green-800" id="generate-pdf">
+        Download PDF <i class="fa-solid fa-download" style="color: #ffffff;"></i>
+    </button>
   </body>
 </html>

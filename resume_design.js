@@ -315,6 +315,22 @@ $(document).ready(function() {
         $('#resume_form').addClass('hidden');
         $('#generate-pdf').show().addClass('flex');
         $('#rewrite-btn').show().addClass('flex');
+        
+        $('#copy_token').attr('value',window.location.href);
+        $('#copy_token_btn').click(function () {
+            const token = $('#copy_token').val() || window.location.href;
+            navigator.clipboard.writeText(token).then(function() {
+                $('#toast').removeClass('hidden').fadeIn(300);
+                // Hide the toast after 3 seconds
+                setTimeout(function() {
+                    $('#toast').fadeOut(1000, function() {
+                        $(this).addClass('hidden');
+                    });
+                }, 3000);
+            }).catch(function(err) {
+                console.error('Failed to copy text: ', err);
+            });
+        });
 
         const decoded = decodeJWT(token);
         if (decoded) {

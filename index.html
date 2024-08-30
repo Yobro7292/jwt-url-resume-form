@@ -126,15 +126,19 @@
             Generating your resume
             <span class="dot-1">.</span><span class="dot-2">.</span><span class="dot-3">.</span>
         </div>
-    </div> 
+    </div>
     <!-- Resume Form -->
-    <div id="resume_form" class="flex flex-col w-full h-screen bg-white justify-center items-center">
+    <div id="resume_form" class="flex flex-col w-full h-screen justify-center items-center" 
+    >
+    <div class="absolute top-0 left-0 min-w-full min-h-screen bg-cover bg-center bg-clip-padding -z-20 blur-sm brightness-75" style="background-image: url(./bg.webp);"></div>
+    <div class="absolute top-0 left-0 min-w-full min-h-screen bg-black -z-10 opacity-50"></div>
+    <div class="absolute bottom-6 text-center text-xs text-white font-[Nunito]">Made with&nbsp;<i class="fa-solid fa-heart" size="10px" style="color: #ff3d3d;"></i>&nbsp;by <a href="https://yogihariyani.in" target="_blank" class="underline underline-offset-4 decoration-blue-300">Yogi Hariyani</a>.</div>
       <div class="flex flex-col w-[1000px] justify-center items-center h-full pt-6">
         <!-- Title of the resume -->
-        <div class="flex flex-col justify-center items-center w-full gap-2">
-          <span class="font-bold text-5xl font-[Nunito] glowing-text">InstaResume</span>
+        <div class="flex flex-col justify-center items-center w-full gap-2 mt-[10rem]">
+          <span class="font-bold text-5xl font-[Nunito] glowing-text relative">InstaResume</span>
           <span
-            class="text-gray-700 text-2xl text-center mt-1"
+            class="text-white text-2xl text-center mt-1"
             style="
               font-family: 'Edu VIC WA NT Beginner', cursive;
               font-weight: 500;
@@ -144,7 +148,7 @@
           Craft Your Perfect Resume in Minutes. No Sign-Up, No Storage. <br /> Share Instantly via URL.
           </span>
           <section class="text-center mt-8">
-              <button id="start" class="inline-block bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700"
+              <button id="start" class="inline-block bg-orange-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-orange-700"
               style="
                 font-family: 'Nunito';
                 font-weight: 500;
@@ -156,7 +160,7 @@
         </div>
         <!-- form  -->
         <div class="container mt-4">
-            <div id="step1" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto"> 
+            <div id="step1" class="hidden fixed inset-0 bg-black backdrop-blur-sm bg-opacity-20 flex items-center justify-center z-50 overflow-y-auto"> 
                 <!-- personal Details -->
                 <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3 p-1">
@@ -301,7 +305,7 @@
             </div>
 
             <!-- Education details -->
-            <div id="step2" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto"> 
+            <div id="step2" class="hidden fixed inset-0 bg-black backdrop-blur-sm bg-opacity-20 flex items-center justify-center z-50 overflow-y-auto"> 
                 <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
@@ -371,7 +375,7 @@
 
 
             <!-- Work Experience details -->
-            <div id="step3" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto"> 
+            <div id="step3" class="hidden fixed inset-0 bg-black backdrop-blur-sm bg-opacity-20 flex items-center justify-center z-50 overflow-y-auto"> 
                 <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
@@ -449,7 +453,7 @@
 
 
             <!-- Projects details -->
-            <div id="step4" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto">
+            <div id="step4" class="hidden fixed inset-0 bg-black backdrop-blur-sm bg-opacity-20 flex items-center justify-center z-50 overflow-y-auto">
                 <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
@@ -517,7 +521,7 @@
             </div>
 
              <!-- Technical skills details -->
-             <div id="step5" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto">
+             <div id="step5" class="hidden fixed inset-0 bg-black backdrop-blur-sm bg-opacity-20 flex items-center justify-center z-50 overflow-y-auto">
                 <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
@@ -570,7 +574,7 @@
              </div>
 
              <!-- Optional skills details -->
-             <div id="step6" class="hidden fixed inset-0 bg-gray-200 backdrop-blur-sm bg-opacity-75 flex items-center justify-center z-50 overflow-y-auto">
+             <div id="step6" class="hidden fixed inset-0 bg-black backdrop-blur-sm bg-opacity-20 flex items-center justify-center z-50 overflow-y-auto">
                 <div class="bg-white rounded shadow-lg w-[60%] py-6 shadow-lg rounded-md  px-8 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
@@ -858,12 +862,16 @@
              </div>
         </div>
     </div>
+
+    <div class="absolute top-4 left-4 cursor-pointer" id="left_logo">
+        <span class="font-bold text-2xl font-[Nunito] glowing-text">InstaResume</span>
+    </div>
     <!-- AI Rewrite Popup -->
     <div id="ai-popup" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm mx-auto text-center flex justify-center items-center w-full flex-col">
             <div class="flex justify-evenly items-center w-full mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">Your Resume Looks Great!</h2>
-                <i class="fa-regular fa-xl fa-circle-xmark text-gray-500" id="ai-popup-close"></i>
+                <i class="fa-regular fa-xl fa-circle-xmark text-gray-500 cursor-pointer" id="ai-popup-close"></i>
             </div>
             <p class="text-gray-600 mb-6">But we can help you make it even better. Let our AI give it a professional polish!</p>
             <button id="rewrite-btn" class="animate-border inline-block rounded-full bg-white bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%] p-1 p-c-f hover:bg-[length:0%_0%] hover:text-white">
@@ -872,11 +880,14 @@
         </div>
     </div>
     
+    <!-- Download PDF button -->
     <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-fit px-6 py-2 gap-2 flex justify-center items-center text-white font-bold font-[Nunito] text-xl hover:bg-green-800" id="generate-pdf">
         Download PDF <i class="fa-solid fa-download" style="color: #ffffff;"></i>
     </button>
-    <div class="absolute bottom-[90px] right-[60px] bg-gray-200 rounded-md flex flex-col gap-2 p-4 font-[Nunito]">
-        <span class="text-md text-black text-center text-black text-lg font-medium">Share this URL to see your resume</span>
+
+    <!-- copy and share URL -->
+    <div class="absolute bottom-[90px] right-[60px] bg-gray-200 rounded-md flex flex-col gap-2 p-4 font-[Nunito]" id="copy_token_container">
+        <span class="text-md text-black text-center text-lg font-medium">Share this URL to see your resume</span>
         <div class="bg-white rounded-md w-[450px] max-w-[450px] relative">
             <input class="truncate w-full py-4 px-4 focus:border-none focus:outline-none" value="" id="copy_token" readonly />
             <div class="flex justify-center items-center w-[50px] h-[30px] absolute bg-white right-[10px] top-[15px] cursor-pointer hover:text-green-800 font-bold" id="copy_token_btn"><i class="fa-regular fa-copy fa-lg"></i></div>
@@ -884,6 +895,22 @@
         <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white py-2 px-8 rounded-md shadow-lg hidden">
             URL copied to clipboard!
         </div>
+    </div>
+
+    <!-- create new button -->
+    <div class="hidden absolute bottom-[90px] right-[60px] bg-gray-200 rounded-lg flex flex-col justify-center items-center gap-4 p-4 font-[Nunito]"           
+        id="create_message" 
+        style="
+        font-family: 'Edu VIC WA NT Beginner', cursive;
+        font-weight: 500;
+        font-style: normal;
+    ">
+        <span class="text-md text-black text-center text-xl font-medium">
+            Ready to craft a stunning AI-powered <br /> resume in just minutes?
+        </span>
+        <a href="https://yobro7292.github.io/jwt-url-resume-form" target="_blank" class="bg-blue-600 rounded-full w-fit px-6 py-2 gap-2 flex justify-center items-center text-white font-bold font-[Nunito] text-lg hover:bg-blue-800">
+            Start Creating Now
+        </a>        
     </div>
   </body>
 </html>

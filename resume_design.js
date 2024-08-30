@@ -1,6 +1,7 @@
 const filled_box = '<div class="w-full p-c-b rounded-sm"></div>';
 const empty_box = '<div class="bg-gray-200 rounded-sm"></div>';
 const API_endpoint_host = 'https://www.yogihariyani.in';
+const currentUrl = window.location.origin + window.location.pathname;
 
 // Function to decode JWT token
 function decodeJWT(token) {
@@ -313,25 +314,12 @@ $(document).ready(function() {
         // showing design
         $('#resume_design').addClass('flex');
         $('#resume_form').addClass('hidden');
-        $('#generate-pdf').show().addClass('flex');
-        $('#rewrite-btn').show().addClass('flex');
-        
-        $('#copy_token').attr('value',window.location.href);
-        $('#copy_token_btn').click(function () {
-            const token = $('#copy_token').val() || window.location.href;
-            navigator.clipboard.writeText(token).then(function() {
-                $('#toast').removeClass('hidden').fadeIn(300);
-                // Hide the toast after 3 seconds
-                setTimeout(function() {
-                    $('#toast').fadeOut(1000, function() {
-                        $(this).addClass('hidden');
-                    });
-                }, 3000);
-            }).catch(function(err) {
-                console.error('Failed to copy text: ', err);
-            });
-        });
+        $('#left_logo').show();
 
+        $('#left_logo').click(function(){
+           window.location.href = currentUrl;
+        });
+        
         const decoded = decodeJWT(token);
         if (decoded) {
             $('#profile_image').css('background-image', decoded.image_url ? `url(${decoded.image_url})` : "linear-gradient(to left top, #d3d3d3, #b6b6b6, #9a9a9a, #7f7f7f, #656565)");
@@ -341,6 +329,35 @@ $(document).ready(function() {
             $('#address_v').text(decoded.contact_details.address || "");
             $('#email_v').text(decoded.contact_details.email || "");
             $('#phone_v').text(decoded.contact_details.phone || "");
+
+            if(!decoded.viewMode){
+                $('#copy_token_container').show();
+                $('#generate-pdf').show().addClass('flex');
+                $('#create_message').addClass("hidden");
+
+                $('#copy_token').attr('value',window.location.href);
+                $('#copy_token_btn').click(function () {
+                    const newToken = generateJWT({...decoded, viewMode: true});
+                    const full_path = currentUrl+'#'+newToken;
+                    navigator.clipboard.writeText(full_path).then(function() {
+                        $('#toast').removeClass('hidden').fadeIn(300);
+                        // Hide the toast after 3 seconds
+                        setTimeout(function() {
+                            $('#toast').fadeOut(1000, function() {
+                                $(this).addClass('hidden');
+                            });
+                        }, 3000);
+                    }).catch(function(err) {
+                        console.error('Failed to copy text: ', err);
+                    });
+                });
+            } else {
+                $('#copy_token_container').hide();
+                $('#generate-pdf').hide();
+                setTimeout(function() {
+                    $('#create_message').removeClass("hidden").hide().fadeIn(500);
+                }, 5000);
+            }
 
             let social_links_value = decoded.contact_details.social_links || [];
             let work_experience_value = decoded.work_experience || [];
@@ -377,20 +394,27 @@ $(document).ready(function() {
 
             // showing popup for AI writing
             setTimeout(function() {
-                if(!decoded.rewrited){
+                if(!decoded.rewrited && !decoded.viewMode){
                     $("#ai-popup").removeClass("hidden").hide().fadeIn(500);
+                    $('#copy_token_container').css('z-index', -1);
+                    $('#generate-pdf').css('z-index', -1);
                 }
             }, 3000);
             
             $('#ai-popup-close').click(function(){
                 $("#ai-popup").fadeOut(500);
+                $('#copy_token_container').css('z-index', 1);
+                $('#generate-pdf').css('z-index', 1);
             })
 
             // click on rewrite-btn
             $('#rewrite-btn').click(function(){
                 $("#ai-popup").fadeOut(500);
+                $('#copy_token_container').css('z-index', 1);
+                $('#generate-pdf').css('z-index', 1);
                 if(!decoded.rewrited){
                     $("#loading-spinner").removeClass("hidden");
+
 
                     // preparing a payload 
                     let resume_data = {
@@ -492,7 +516,6 @@ $(document).ready(function() {
 
                                 }
 
-                                $('#rewrite-btn').hide();
                                 generatingTokenAndRedirect(decoded, rewrited_data);
                             } else {
                                 alert("Something went wrong in server");
@@ -561,7 +584,8 @@ $(document).ready(function() {
         $('#resume_design').addClass('hidden');
         $('#resume_form').addClass('flex');
         $('#generate-pdf').hide().removeClass('flex');
-        $('#rewrite-btn').hide().removeClass('flex');
+        $('#copy_token_container').hide();
+        $('#left_logo').hide();
 
         $('#start').click(function () {
             $('#step1').removeClass('hidden').hide();
@@ -999,7 +1023,7 @@ $(document).ready(function() {
             for(var i=1; i<=social_link_id;i++){            
                 var type = $(`#social_link${i}_type`).val();
                 var value = $(`#social_link${i}_value`).val();
-                if(type && href){
+                if(type && value){
                     social_links.push({
                         type,
                         href: cleanURL(value),

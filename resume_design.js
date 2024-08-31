@@ -589,61 +589,91 @@ $(document).ready(function() {
 
         $('#start').click(function () {
             $('#step1').removeClass('hidden').hide();
-            $('#step1').fadeIn(300);
+            $('#step1').fadeIn(200);
         });
 
         $('#cancel1').click(function () {
-            $(`#step1`).fadeOut(300);
+            $(`#step1`).fadeOut(200);
         });
 
         $('#next1').click(function () {
-            $('#step1').fadeOut(300);
+            $('#step1').fadeOut(200);
             $('#step2').removeClass('hidden').hide();
-            $('#step2').fadeIn(300);
+            $('#step2').fadeIn(200);
         });
 
         $('#cancel2').click(function () {
-            $(`#step2`).fadeOut(300);
+            $(`#step2`).fadeOut(200);
+        });
+
+        $('#back1').click(function () {
+            $('#step2').fadeOut(200);
+            $('#step1').removeClass('hidden').hide();
+            $('#step1').fadeIn(200);
         });
 
         $('#next2').click(function () {
-            $('#step2').fadeOut(300);
+            $('#step2').fadeOut(200);
             $('#step3').removeClass('hidden').hide();
-            $('#step3').fadeIn(300);
+            $('#step3').fadeIn(200);
         });
 
         $('#cancel3').click(function () {
-            $(`#step3`).fadeOut(300);
+            $(`#step3`).fadeOut(200);
+        });
+
+        $('#back2').click(function () {
+            $('#step3').fadeOut(200);
+            $('#step2').removeClass('hidden').hide();
+            $('#step2').fadeIn(200);
         });
 
         $('#next3').click(function () {
-            $('#step3').fadeOut(300);
+            $('#step3').fadeOut(200);
             $('#step4').removeClass('hidden').hide();
-            $('#step4').fadeIn(300);
+            $('#step4').fadeIn(200);
         });
 
         $('#cancel4').click(function () {
-            $(`#step4`).fadeOut(300);
+            $(`#step4`).fadeOut(200);
+        });
+
+        $('#back3').click(function () {
+            $('#step4').fadeOut(200);
+            $('#step3').removeClass('hidden').hide();
+            $('#step3').fadeIn(200);
         });
 
         $('#next4').click(function () {
-            $('#step4').fadeOut(300);
+            $('#step4').fadeOut(200);
             $('#step5').removeClass('hidden').hide();
-            $('#step5').fadeIn(300);
+            $('#step5').fadeIn(200);
         });
 
         $('#cancel5').click(function () {
-            $(`#step5`).fadeOut(300);
+            $(`#step5`).fadeOut(200);
+        });
+
+        $('#back4').click(function () {
+            $('#step5').fadeOut(200);
+            $('#step4').removeClass('hidden').hide();
+            $('#step4').fadeIn(200);
         });
 
         $('#next5').click(function () {
-            $('#step5').fadeOut(300);
+            $('#step5').fadeOut(200);
             $('#step6').removeClass('hidden').hide();
-            $('#step6').fadeIn(300);
+            $('#step6').fadeIn(200);
         });
 
         $('#cancel6').click(function () {
-            $(`#step6`).fadeOut(300);
+            $(`#step6`).fadeOut(200);
+        });
+
+        $('#back5').click(function () {
+            $('#step6').fadeOut(200);
+            $('#step5').removeClass('hidden').hide();
+            $('#step5').fadeIn(200);
         });
 
         //function to check if image is uploaded or not 

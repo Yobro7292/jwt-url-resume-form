@@ -28,7 +28,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
     <style>
       .custom-shape-divider-top-1724245809 {
         width: 100%;
@@ -892,35 +891,33 @@
         <span class="font-bold text-2xl font-[Nunito] glowing-text">InstaResume</span>
     </div>
     <!-- AI Rewrite Popup -->
-    <div id="ai-popup" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div id="ai-popup" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" style="font-family: 'Nunito' !important;">
         <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm mx-auto text-center flex justify-center items-center w-full flex-col">
             <div class="flex justify-evenly items-center w-full mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">Your Resume Looks Great!</h2>
-                <i class="fa-regular fa-xl fa-circle-xmark text-gray-500 cursor-pointer" id="ai-popup-close"></i>
             </div>
             <p class="text-gray-600 mb-6">But we can help you make it even better. Let our AI give it a professional polish!</p>
-            <button id="rewrite-btn" class="animate-border inline-block rounded-full bg-white bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%] p-1 p-c-f hover:bg-[length:0%_0%] hover:text-white">
-                <span class="block rounded-full bg-white hover:bg-[#183141] hover:text-white px-5 py-3 font-bold"> Rewrite with AI </span>
+            <button id="rewrite-btn" class="animate-border inline-block rounded-full bg-white bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%] p-1 p-c-f hover:text-white">
+                <span class="block rounded-full bg-transparent text-white hover:text-white px-5 py-3 font-bold"> Rewrite with AI </span>
               </button>
         </div>
     </div>
-    
-    <!-- Download PDF button -->
-    <button class="absolute bottom-[20px] right-[60px] bg-green-600 rounded-full w-fit px-6 py-2 gap-2 flex justify-center items-center text-white font-bold font-[Nunito] text-xl hover:bg-green-800" id="generate-pdf">
-        Download PDF <i class="fa-solid fa-download" style="color: #ffffff;"></i>
-    </button>
 
-    <!-- copy and share URL -->
-    <div class="absolute bottom-[90px] right-[60px] bg-gray-200 rounded-md flex flex-col gap-2 p-4 font-[Nunito]" id="copy_token_container">
-        <span class="text-md text-black text-center text-lg font-medium">Share this URL to see your resume</span>
-        <div class="bg-white rounded-md w-[450px] max-w-[450px] relative">
-            <input class="truncate w-full py-4 px-4 focus:border-none focus:outline-none" value="" id="copy_token" readonly />
-            <div class="flex justify-center items-center w-[50px] h-[30px] absolute bg-white right-[10px] top-[15px] cursor-pointer hover:text-green-800 font-bold" id="copy_token_btn"><i class="fa-regular fa-copy fa-lg"></i></div>
+    <!-- bottom actoins -->
+     <div class="flex justify-evenly w-fit py-4 items-center absolute bottom-[20px] right-[60px] gap-2" id="copy_token_container">
+        <div class="p-3 rounded-full bg-blue-500 hover:bg-blue-700 shadow-lg" id="edit_btn">
+            <i class="fa-solid fa-pencil fa-lg" style="color: #ffffff;"></i>
         </div>
-        <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white py-2 px-8 rounded-md shadow-lg hidden">
-            URL copied to clipboard!
+        <div class="p-3 rounded-full bg-orange-500 hover:bg-orange-700 shadow-lg" id="generate-pdf">
+            <i class="fa-solid fa-file-pdf fa-lg" style="color: #ffffff;"></i>
         </div>
-    </div>
+        <div class="p-3 rounded-full bg-emerald-500 hover:bg-emerald-700 shadow-lg" id="downloadFile">
+            <i class="fa-solid fa-code fa-lg" style="color: #ffffff;"></i>
+        </div>
+        <div class="p-3 rounded-full shadow-lg animate-border inline-block bg-white bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%]" id="ai_popup_btn">
+            <i class="fa-solid fa-feather-pointed fa-lg" style="color: #ffffff;"></i>
+        </div>
+     </div>
 
     <!-- create new button -->
     <div class="hidden absolute bottom-[90px] right-[60px] bg-gray-200 rounded-lg flex flex-col justify-center items-center gap-4 p-4 font-[Nunito]"           

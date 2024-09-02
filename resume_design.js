@@ -330,27 +330,104 @@ $(document).ready(function() {
             $('#email_v').text(decoded.contact_details.email || "");
             $('#phone_v').text(decoded.contact_details.phone || "");
 
+            function generateNewTokenWithURL() {
+                const newToken = generateJWT({...decoded, viewMode: true});
+                const full_path = currentUrl+'#'+newToken;
+                return full_path;
+            }
+
+            function openAIPopup(isOpen=true){
+                if(isOpen){
+                    if(!decoded.rewrited && !decoded.viewMode){
+                        $("#ai-popup").removeClass("hidden").hide().fadeIn(500);
+                        $('#copy_token_container').css('z-index', -1);
+                        $('#generate-pdf').css('z-index', -1);
+                    }
+                } else {
+                    $("#ai-popup").fadeOut(500);
+                    $('#copy_token_container').css('z-index', 1);
+                    $('#generate-pdf').css('z-index', 1);
+                }
+            }
+
             if(!decoded.viewMode){
                 $('#copy_token_container').show();
-                $('#generate-pdf').show().addClass('flex');
                 $('#create_message').addClass("hidden");
 
-                $('#copy_token').attr('value',window.location.href);
-                $('#copy_token_btn').click(function () {
-                    const newToken = generateJWT({...decoded, viewMode: true});
-                    const full_path = currentUrl+'#'+newToken;
-                    navigator.clipboard.writeText(full_path).then(function() {
-                        $('#toast').removeClass('hidden').fadeIn(300);
-                        // Hide the toast after 3 seconds
-                        setTimeout(function() {
-                            $('#toast').fadeOut(1000, function() {
-                                $(this).addClass('hidden');
-                            });
-                        }, 3000);
-                    }).catch(function(err) {
-                        console.error('Failed to copy text: ', err);
+                if(decoded.rewrited){
+                    $('#ai_popup_btn').hide();
+                } else {
+                    $('#ai_popup_btn').show();
+                }
+
+                $('#downloadFile').click(function(){
+                    var htmlContent = `
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>my-resume</title>
+                            <meta http-equiv="refresh" content="3; url=${generateNewTokenWithURL()}">
+                        </head>
+                        <body>
+                            Opening your resume...
+                        </body>
+                        </html>
+                        `;
+                    var minifiedContent = htmlContent.replace(/\s+/g, ' ').replace(/>\s+</g, '><').trim(); 
+
+                    var blob = new Blob([minifiedContent], { type: 'text/html' });
+                    var link = document.createElement('a');
+                    link.download = `${decoded.name}-resume.html`;
+                    link.href = window.URL.createObjectURL(blob);
+                    link.click();
+                    window.URL.revokeObjectURL(link.href);
+                });
+
+                    // generate pdf and download
+                $('#generate-pdf').click(function () {
+                    // Capture the content as a canvas
+                    html2canvas(document.querySelector("#content_to_pdf"), {
+                        scale: 2,  // Increase scale for better quality
+                        useCORS: true,  // Enable CORS to handle cross-origin images
+                        allowTaint: true  // Allows images from different origins without tainting the canvas
+                    }).then(canvas => {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4
+                
+                        // Calculate the A4 size in pixels at 96 DPI
+                        const a4Width = 210; // A4 width in mm
+                        const a4Height = 297; // A4 height in mm
+                
+                        // Get canvas dimensions in pixels
+                        const canvasWidth = canvas.width;
+                        const canvasHeight = canvas.height+100;
+                
+                        // Calculate the aspect ratio
+                        const ratio = Math.min(a4Width / canvasWidth, a4Height / canvasHeight);
+                
+                        // Calculate the new dimensions for the image in mm
+                        const imgWidth = (canvasWidth) * ratio; // px to mm conversion (1 px = 0.264583 mm)
+                        const imgHeight = (canvasHeight) * ratio;
+                
+                        // Center the image if it's smaller than the A4 page
+                        const offsetX = (a4Width - imgWidth) / 2;
+                        const offsetY = (a4Height - imgHeight) / 2;
+                        
+                        setTimeout(() => {
+                            const Image_URL = canvas.toDataURL('image/png');
+                        }, 4000);
+                        // Add the image to the PDF at the center
+                        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', offsetX, offsetY, imgWidth, imgHeight);
+                
+                        // Save the PDF
+                        pdf.save(`${decoded.name}-resume.pdf`);
+                    }).catch(err => {
+                        console.error("Error generating PDF: ", err);
                     });
                 });
+                
             } else {
                 $('#copy_token_container').hide();
                 $('#generate-pdf').hide();
@@ -392,26 +469,26 @@ $(document).ready(function() {
             //add interests in design
             addInterests(interests_value); 
 
+
             // showing popup for AI writing
             setTimeout(function() {
-                if(!decoded.rewrited && !decoded.viewMode){
-                    $("#ai-popup").removeClass("hidden").hide().fadeIn(500);
-                    $('#copy_token_container').css('z-index', -1);
-                    $('#generate-pdf').css('z-index', -1);
+                openAIPopup();
+            }, 5000);
+
+            $('#ai_popup_btn').click(function(){
+                openAIPopup();
+            });
+
+            $(document).mouseup(function(e) {
+                var popup = $("#ai-popup .bg-white");
+                if (!popup.is(e.target) && popup.has(e.target).length === 0) {
+                    openAIPopup(false);
                 }
-            }, 3000);
-            
-            $('#ai-popup-close').click(function(){
-                $("#ai-popup").fadeOut(500);
-                $('#copy_token_container').css('z-index', 1);
-                $('#generate-pdf').css('z-index', 1);
-            })
+            });
 
             // click on rewrite-btn
             $('#rewrite-btn').click(function(){
-                $("#ai-popup").fadeOut(500);
-                $('#copy_token_container').css('z-index', 1);
-                $('#generate-pdf').css('z-index', 1);
+                openAIPopup(false);
                 if(!decoded.rewrited){
                     $("#loading-spinner").removeClass("hidden");
 
@@ -534,56 +611,11 @@ $(document).ready(function() {
             });
 
         } //end_decode_if
-
-
-        // generate pdf and download
-        $('#generate-pdf').click(function () {
-            // Capture the content as a canvas
-            html2canvas(document.querySelector("#content_to_pdf"), {
-                scale: 2,  // Increase scale for better quality
-                useCORS: true,  // Enable CORS to handle cross-origin images
-                allowTaint: true  // Allows images from different origins without tainting the canvas
-            }).then(canvas => {
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4'); // Portrait, millimeters, A4
-        
-                // Calculate the A4 size in pixels at 96 DPI
-                const a4Width = 210; // A4 width in mm
-                const a4Height = 297; // A4 height in mm
-        
-                // Get canvas dimensions in pixels
-                const canvasWidth = canvas.width;
-                const canvasHeight = canvas.height+100;
-        
-                // Calculate the aspect ratio
-                const ratio = Math.min(a4Width / canvasWidth, a4Height / canvasHeight);
-        
-                // Calculate the new dimensions for the image in mm
-                const imgWidth = (canvasWidth) * ratio; // px to mm conversion (1 px = 0.264583 mm)
-                const imgHeight = (canvasHeight) * ratio;
-        
-                // Center the image if it's smaller than the A4 page
-                const offsetX = (a4Width - imgWidth) / 2;
-                const offsetY = (a4Height - imgHeight) / 2;
-                
-                setTimeout(() => {
-                    const Image_URL = canvas.toDataURL('image/png');
-                }, 4000);
-                // Add the image to the PDF at the center
-                pdf.addImage(canvas.toDataURL('image/png'), 'PNG', offsetX, offsetY, imgWidth, imgHeight);
-        
-                // Save the PDF
-                pdf.save('generated.pdf');
-            }).catch(err => {
-                console.error("Error generating PDF: ", err);
-            });
-        });
         
     } 
     else {
         $('#resume_design').addClass('hidden');
         $('#resume_form').addClass('flex');
-        $('#generate-pdf').hide().removeClass('flex');
         $('#copy_token_container').hide();
         $('#left_logo').hide();
 

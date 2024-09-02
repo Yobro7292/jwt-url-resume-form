@@ -751,21 +751,21 @@
             <!-- basic details  -->
             <div class="w-full flex justify-between items-start py-3 px-4 z-10">
                 <div class="flex flex-col gap-0 w-1/2">
-                    <span class="text-white text-2xl font-bold" id="name_v">Yogi Hariyani</span>
-                    <span class="s-c-f text-sm font-normal" id="role_v">Senior Software Developer</span>
-                    <span class="text-white text-[11px] font-light mt-2 max-w-[90%] leading-[13px] h-[67px] max-h-[67px] line-clamp-5" id="bio_v">A resume description is a section of your resume that lists your job duties, accomplishments, and projects for a specific role.</span>
+                    <span class="text-white text-2xl font-bold" id="name_v"></span>
+                    <span class="s-c-f text-sm font-normal" id="role_v"></span>
+                    <span class="text-white text-[11px] font-light mt-2 max-w-[90%] leading-[13px] h-[67px] max-h-[67px] line-clamp-5" id="bio_v"></span>
                 </div>
                 <div class="flex flex-col gap-[6px]">
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[12px] font-light" id="email_v">yogihariyani@gmail.com</span>
+                        <span class="text-white text-[12px] font-light" id="email_v"></span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-envelope s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[12px] font-light" id="phone_v">+91 99255 73751</span>
+                        <span class="text-white text-[12px] font-light" id="phone_v"></span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-mobile-button s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex justify-end items-center gap-1">
-                        <span class="text-white text-[12px] font-light" id="address_v">4th Avenue, National Park, Behind Mama Nagar, CA</span>
+                        <span class="text-white text-[12px] font-light" id="address_v"></span>
                         <div class="min-w-[20px] p-0 flex justify-end items-center"><i class="fa-solid fa-location-dot s-c-f fa-sm"></i></div>
                     </div>
                     <div class="flex flex-col gap-[6px]" id="social_links_v_container">  
@@ -888,7 +888,7 @@
     </div>
 
     <div class="absolute top-4 left-4 cursor-pointer" id="left_logo">
-        <span class="font-bold text-2xl font-[Nunito] glowing-text">InstaResume</span>
+        <span class="font-bold text-4xl font-[Nunito] text-gray-700">InstaResume</span>
     </div>
     <!-- AI Rewrite Popup -->
     <div id="ai-popup" class="hidden fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" style="font-family: 'Nunito' !important;">
@@ -904,23 +904,35 @@
     </div>
 
     <!-- bottom actoins -->
-     <div class="flex justify-evenly w-fit py-4 items-center absolute bottom-[20px] right-[60px] gap-2" id="copy_token_container">
-        <div class="p-3 rounded-full bg-blue-500 hover:bg-blue-700 shadow-lg" id="edit_btn">
+     <div class="flex justify-evenly w-fit py-4 items-center absolute bottom-[20px] right-[60px] gap-2 font-[Nunito]" id="copy_token_container">
+        <div class="p-3 rounded-full bg-blue-500 hover:bg-blue-700 shadow-lg relative cursor-pointer" id="edit_btn">
             <i class="fa-solid fa-pencil fa-lg" style="color: #ffffff;"></i>
+            <p class="hidden px-4 py-1 font-light text-sm text-white bg-zinc-800 rounded-lg absolute top-[-35px] left-[-12%] text-nowrap w-full min-w-min" id="edit_btn_tooltip">
+                Edit
+            </p>
         </div>
-        <div class="p-3 rounded-full bg-orange-500 hover:bg-orange-700 shadow-lg" id="generate-pdf">
+        <div class="p-3 rounded-full bg-orange-500 hover:bg-orange-700 shadow-lg relative cursor-pointer" id="generate-pdf">
             <i class="fa-solid fa-file-pdf fa-lg" style="color: #ffffff;"></i>
+            <p class="hidden px-4 py-1 font-light text-sm text-white bg-zinc-800 rounded-lg absolute top-[-35px] left-[-2.5rem] text-nowrap w-full min-w-min" id="pdf_btn_tooltip">
+                Download PDF
+            </p>
         </div>
-        <div class="p-3 rounded-full bg-emerald-500 hover:bg-emerald-700 shadow-lg" id="downloadFile">
+        <div class="p-3 rounded-full bg-emerald-500 hover:bg-emerald-700 shadow-lg relative cursor-pointer" id="downloadFile">
             <i class="fa-solid fa-code fa-lg" style="color: #ffffff;"></i>
+            <p class="hidden px-4 py-1 font-light text-sm text-white bg-zinc-800 rounded-lg absolute top-[-35px] left-[-6rem] text-nowrap w-full min-w-min" id="share_btn_tooltip">
+                Share or refine this file further
+            </p>
         </div>
-        <div class="p-3 rounded-full shadow-lg animate-border inline-block bg-white bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%]" id="ai_popup_btn">
+        <div class="p-3 rounded-full shadow-lg animate-border inline-block bg-white bg-gradient-to-r from-purple-500 via-orange-500 to-green-500 bg-[length:400%_400%] relative cursor-pointer" id="ai_popup_btn">
             <i class="fa-solid fa-feather-pointed fa-lg" style="color: #ffffff;"></i>
+            <p class="hidden px-4 py-1 font-light text-sm text-white bg-zinc-800 rounded-lg absolute top-[-35px] left-[-3rem] text-nowrap w-full min-w-min" id="ai_btn_tooltip">
+                Rewrite with AI
+            </p>
         </div>
      </div>
 
     <!-- create new button -->
-    <div class="hidden absolute bottom-[90px] right-[60px] bg-gray-200 rounded-lg flex flex-col justify-center items-center gap-4 p-4 font-[Nunito]"           
+    <div class="hidden fixed bottom-[90px] right-[60px] bg-gray-200 rounded-lg flex flex-col justify-center items-center gap-4 p-4 font-[Nunito]"           
         id="create_message" 
         style="
         font-family: 'Edu VIC WA NT Beginner', cursive;

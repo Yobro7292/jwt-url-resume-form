@@ -360,6 +360,32 @@ $(document).ready(function() {
                     $('#ai_popup_btn').show();
                 }
 
+                // showing tooltip when hoovering on action buttons
+                $('#edit_btn').hover(function(){
+                    $('#edit_btn_tooltip').removeClass('hidden').hide();
+                    $('#edit_btn_tooltip').fadeIn(300);
+                }, function(){
+                    $('#edit_btn_tooltip').fadeOut(300);
+                })
+                $('#generate-pdf').hover(function(){
+                    $('#pdf_btn_tooltip').removeClass('hidden').hide();
+                    $('#pdf_btn_tooltip').fadeIn(300);
+                }, function(){
+                    $('#pdf_btn_tooltip').fadeOut(300);
+                })
+                $('#downloadFile').hover(function(){
+                    $('#share_btn_tooltip').removeClass('hidden').hide();
+                    $('#share_btn_tooltip').fadeIn(300);
+                }, function(){
+                    $('#share_btn_tooltip').fadeOut(300);
+                })
+                $('#ai_popup_btn').hover(function(){
+                    $('#ai_btn_tooltip').removeClass('hidden').hide();
+                    $('#ai_btn_tooltip').fadeIn(300);
+                }, function(){
+                    $('#ai_btn_tooltip').fadeOut(300);
+                })
+
                 $('#downloadFile').click(function(){
                     var htmlContent = `
                         <!DOCTYPE html>
@@ -430,7 +456,6 @@ $(document).ready(function() {
                 
             } else {
                 $('#copy_token_container').hide();
-                $('#generate-pdf').hide();
                 setTimeout(function() {
                     $('#create_message').removeClass("hidden").hide().fadeIn(500);
                 }, 5000);
